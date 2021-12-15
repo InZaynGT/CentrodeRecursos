@@ -1,0 +1,11 @@
+RewriteEngine On
+
+RewriteRule ^([a-zA-Z-]+)/?$ index.php?cf_vst=$1 [S]
+RewriteRule ^([a-zA-Z-]+)/([[a-zA-Z-]+)/?$ index.php?cf_vst=$1&subcf_vst=$2 [S]
+RewriteRule ^([a-zA-Z-]+)/([0-9]+)-([a-zA-Z0-9-]+)/?$ index.php?cf_vst=$1&subcf_vst=$2&slug=$3 [S]
+RewriteRule ^([a-zA-Z-]+)/([0-9]+)-([a-zA-Z0-9-]+)/([a-zA-Z-]+)/?$ index.php?cf_vst=$1&subcf_vst=$2&slug=$3&status=$4 [S]
+
+<FilesMatch "\.(htaccess|htpasswd|log|phtml|txt|sql)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>

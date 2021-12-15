@@ -1,0 +1,115 @@
+﻿@import url('fonts/ptsans_regular_macroman/stylesheet.css');
+@import url('fonts/ptsans_bold_macroman/stylesheet.css');
+@import url('fonts/ptsans_italic_macroman/stylesheet.css');
+
+body {
+	font-family: 'pt_sansregular';
+	font-size:14px;
+}
+	
+a {
+	text-decoration:none;
+}
+input, button, textarea {
+	outline:none;
+}
+textarea {
+	font-family: 'pt_sansregular';
+}
+b, .bold {
+	font-family: 'pt_sansbold';
+}
+.italic {
+	font-family: 'pt_sansitalic';
+}
+.clear {
+	clear:both;
+}
+img {
+	max-width:100%;
+}
+button {
+	border:0;
+	cursor:pointer;
+}
+
+.trRojo td {
+	background: #FFD9D9!important;
+}
+.dataTable tr.trRojo:hover td,
+.trRojo:hover td {
+	background: #FFD9D9!important;
+}
+.fixed {
+    position: fixed;
+    bottom: 0px;
+    background: #FFF none repeat scroll 0% 0%;
+    width: 100%;
+    padding: 10px;
+    border-top: 4px solid rgb(204, 204, 204);
+	z-index:9999999999;
+	left:0px;
+}
+.fixed #result,
+.fixed #result2 {
+	margin-top:5px;
+}
+.loading {
+	margin: auto;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    -webkit-animation: rotation .8s infinite linear;
+    -moz-animation: rotation .8s infinite linear;
+    -o-animation: rotation .8s infinite linear;
+    animation: rotation .8s infinite linear;
+    border-left: 3px solid rgba(161,113,89,.45);
+    border-right: 3px solid rgba(161,113,89,.45);
+    border-bottom: 3px solid rgba(161,113,89,.45);
+    border-top: 3px solid rgba(161,113,89,1);
+    border-radius: 100%;
+}
+
+.foto-div {
+    display:table; 
+    margin:0 auto; 
+    margin-bottom:1rem
+}
+
+.img-paciente{
+    width:200px; 
+    height:150px
+}
+
+@-webkit-keyframes rotation { 
+	from {
+	    -webkit-transform: rotate(0deg)
+	}
+	to {
+	    -webkit-transform: rotate(359deg)
+	}
+}
+@-moz-keyframes rotation { 
+	from {
+	    -moz-transform: rotate(0deg)
+	}
+	to {
+	    -moz-transform: rotate(359deg)
+	}
+}
+@-o-keyframes rotation { 
+	from {
+	    -o-transform: rotate(0deg)
+	}
+	to {
+	    -o-transform: rotate(359deg)
+	}
+}
+@keyframes rotation { 
+	from {
+	    transform: rotate(0deg)
+	}
+	to {
+	    transform: rotate(359deg)
+	}
+}

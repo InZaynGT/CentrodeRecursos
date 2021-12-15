@@ -1,0 +1,63 @@
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+body, html {
+    background: url('../img/login_bg_3.png')#2a6283;
+}
+.loginbody {
+	font-family: 'pt_sansregular';
+	font-size:14px;
+}
+    .loginbody > div {
+        width: 290px;
+				margin:5% auto;
+			}
+    .loginbody > div > div {
+        box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, 0.2);
+        display: block;
+        background-color: #FFF;
+        border-radius: 40px;
+		overflow:hidden;
+    }
+    .loginbody > div > div > div{
+		background:rgba(255,255,255, 0.2);
+        padding: 20px 30px 30px;
+    }
+    .loginbody h1 {
+		margin: 0;
+		background:#2a6283;
+		padding:20px 30px 30px;
+		font-weight: normal;
+        color:#2a6283;
+        font-size: 25px;
+        text-align: center;
+        padding-bottom: 12px;
+        letter-spacing: -1px;
+    }
+    .loginbody h3 {
+		margin: 0px 0px 10px;
+		text-align: center;
+    }
+	.loginbody  label{
+		padding:7px 0px 5px;
+	}
+    .loginbody button {
+        width:100%;
+		display:block;
+		margin-top:18px;
+		margin-bottom:8px;
+    }
+    .loginbody button:hover {
+		background:#2a6283;
+    }
+    .loginbody p {
+        text-align: center;
+        color: #2a6283;
+        font-size: 14px;
+        padding-top: 10px;
+    }

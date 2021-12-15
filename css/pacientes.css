@@ -1,0 +1,10 @@
+.foto-div {
+    display:table; 
+    margin:0 auto; 
+    margin-bottom:1rem
+}
+
+.img-paciente{
+    width: 200px; 
+    height: 150px
+}
