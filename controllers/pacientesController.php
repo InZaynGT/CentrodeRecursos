@@ -5,7 +5,8 @@ if (count($_POST) > 0) {
 	&& isset($_POST['direccionTrabajo']) && isset($_POST['lugarTrabajo']) && isset($_POST['ocupacion']) && isset($_POST['telefono'])
 	&& isset($_POST['fechaNacimiento']) && isset($_POST['dpi']) && isset($_POST['genero']) && isset($_POST['estadoCivil']) 
 	&& isset($_POST['escolaridad']) && isset($_POST['tipoSangre']) && isset($_POST['conyugue']) && isset($_POST['responsable'])
-	&& isset($_POST['padre']) && isset($_POST['madre']) && isset($_POST['hermanos']) && isset($_POST['observaciones'])
+	&& isset($_POST['religion']) && isset($_POST['padre']) && isset($_POST['madre']) && isset($_POST['hermanos']) 
+	&&isset($_POST['observaciones'])
 	) {
 
 		$nombres = $_POST['nombres'];
@@ -23,14 +24,20 @@ if (count($_POST) > 0) {
 		$tipoSangre = $_POST['tipoSangre'];
 		$conyugue = $_POST['conyugue'];
 		$responsable = $_POST['responsable'];
+		$religion = $_POST['religion'];
 		$padre = $_POST['padre'];
 		$madre = $_POST['madre'];
 		$hermanos = $_POST['hermanos'];
 		$observaciones = $_POST['observaciones'];
 		$fechaIngreso = date('Y-m-d H:i:s');
 		$img = $_POST['image'];
-	
-		//subir la foto al directorio
+
+		if(empty($img)){
+			$filename[0]="";
+
+		}
+		else{
+			//subir la foto al directorio
 		$folderPath = "/xampp/uploads/";
 
 		$image_parts = explode(";base64",$img);
@@ -43,12 +50,14 @@ if (count($_POST) > 0) {
 		$file = $folderPath.$filename;
 		file_put_contents($file,$image_base64);
 		$filename = explode('.',$filename);
-
-
+			
+		}
+	
+		
 		require_once 'models/pacientesModel.php';
 						$p = new Patient();
 						$insert = $p->addPatient($nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
-						$fechaNacimiento,$dpi,$genero, $estadoCivil, $escolaridad, $tipoSangre, $conyugue, $responsable, $padre, $madre, 
+						$fechaNacimiento,$dpi,$genero, $estadoCivil, $escolaridad, $tipoSangre, $conyugue, $responsable,$religion, $padre, $madre, 
 						$hermanos, $observaciones,$fechaIngreso,$filename[0]);
 						if ($insert == true) {
 							echo '<div class="alert alert-success alert-dismissable">

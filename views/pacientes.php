@@ -20,6 +20,7 @@
         });
     });
 
+
     function openCamera() {
         Webcam.set({
             width: 200,
@@ -29,7 +30,7 @@
         });
 
         Webcam.attach('#my_camera')
-        var x = document.getElementById("open");
+        var x = document.getElementById("capture");
         if (x.style.display === "none") {
             x.style.display = "block";
         } else {
@@ -46,6 +47,7 @@
         })
         Webcam.reset()
 
+        //ocultar el boton tomar foto una vez se toma la foto
         var x = document.getElementById("capture");
         if (x.style.display === "none") {
             x.style.display = "block";
@@ -56,7 +58,10 @@
 
     }
 
-
+//
+$(document).ready(function() {
+    $("#capture").hide();
+})
 </script>
 
 <?php $min = 'Pacientes';
@@ -114,7 +119,7 @@ $minS = 'Paciente'; ?>
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
-                                    <input name="direccion" type="text" class="form-control" placeholder="Dirección" maxlength="75" required>
+                                    <input name="direccion" type="text" class="form-control" placeholder="Dirección" maxlength="75" >
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
@@ -160,7 +165,7 @@ $minS = 'Paciente'; ?>
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-intersex"></i></span>
-                                    <select name="genero" class="form-control">
+                                    <select name="genero" class="form-control" required>
                                         <option selected disabled value="">Sexo</option>
                                         <option value="1">Masculino</option>
                                         <option value="2">Femenino</option>
@@ -170,8 +175,8 @@ $minS = 'Paciente'; ?>
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-mars-stroke-v"></i></span>
-                                    <select name="estadoCivil" class="form-control">
-                                        <option selected disabled>Estado civil</option>
+                                    <select name="estadoCivil" class="form-control" required>
+                                        <option selected disabled value="">Estado civil</option>
                                         <option value="1">Soltero(a)</option>
                                         <option value="2">Casado(a)</option>
                                         <option value="3">Viudo(a)</option>
@@ -185,8 +190,8 @@ $minS = 'Paciente'; ?>
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                                    <select name="escolaridad" class="form-control">
-                                        <option selected disabled>Escolaridad</option>
+                                    <select name="escolaridad" class="form-control" required>
+                                        <option selected disabled value="">Escolaridad</option>
                                         <option value="1">Ninguna</option>
                                         <option value="2">Primaria</option>
                                         <option value="3">Básico</option>
@@ -201,17 +206,18 @@ $minS = 'Paciente'; ?>
 
                             <div class="form-group col-md-4">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                                    <select name="tipoSangre" class="form-control">
-                                        <option selected disabled>Tipo de sangre</option>
-                                        <option value="1">O Positivo</option>
-                                        <option value="2">O Negativo</option>
-                                        <option value="3">A Positivo</option>
-                                        <option value="4">A Negativo</option>
-                                        <option value="5">B Positivo</option>
-                                        <option value="6">B Negativo</option>
-                                        <option value="7">AB Positivo</option>
-                                        <option value="8">AB Negativo</option>
+                                    <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
+                                    <select name="tipoSangre" class="form-control" required>
+                                        <option selected disabled value="">Tipo de sangre</option>
+                                        <option value="1">No sabe</option>
+                                        <option value="2">O Positivo</option>
+                                        <option value="3">O Negativo</option>
+                                        <option value="4">A Positivo</option>
+                                        <option value="5">A Negativo</option>
+                                        <option value="6">B Positivo</option>
+                                        <option value="7">B Negativo</option>
+                                        <option value="8">AB Positivo</option>
+                                        <option value="9">AB Negativo</option>
                                     </select>
                                 </div>
                             </div>
@@ -229,7 +235,17 @@ $minS = 'Paciente'; ?>
 									this.value.replace(/[^a-zA-Z ]/g,'').replace(/(\..*)\./g, '$1');" maxlength="75">
                                 </div>
                             </div>
-                            <h4 class="modal-header"><i class="fa fa-file-o"></i> Antecedentes familiares</h4>
+                            <div class="form-group col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-exclamation"></i></span>
+                                    <input name="religion" type="text" class="form-control" placeholder="Religión" oninput="this.value =
+									this.value.replace(/[^a-zA-Z ]/g,'').replace(/(\..*)\./g, '$1');" maxlength="40">
+                                </div>
+                            </div>
+                            <div class="modal-header col-md-12">
+                        <h4 class="modal-title"><i class="fa fa-file-o"></i> Antecedentes familiares</h4>
+                    </div>
+                            
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -255,7 +271,7 @@ $minS = 'Paciente'; ?>
                                 <label for="txtObservaciones">* Observaciones </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                    <textarea id="txtObservaciones" name="observaciones" class="form-control" maxlength="150" rows="1" required></textarea>
+                                    <textarea id="txtObservaciones" name="observaciones" class="form-control" maxlength="150" rows="1" ></textarea>
                                 </div>
                             </div>
 

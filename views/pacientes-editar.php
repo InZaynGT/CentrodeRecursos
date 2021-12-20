@@ -74,6 +74,7 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
+                            <label for="txtNombres">Nombres</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input name="nombres" type="text" class="form-control" placeholder="Nombres" oninput="this.value =
@@ -81,6 +82,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtApellidos">Apellidos</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input name="apellidos" type="text" class="form-control" placeholder="Apellidos *" oninput="this.value =
@@ -89,30 +91,35 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
+                            <label for="txtDireccion">Dirección</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
                                     <input name="direccion" type="text" class="form-control" placeholder="Dirección" maxlength="75" value="<?php echo $paciente['direccion']; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtDireccionTrabajo">Dirección de trabajo</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-suitcase"></i></span>
-                                    <input name="direccionTrabajo" type="text" class="form-control" placeholder="Dirección de Trabajo" value="<?php echo $paciente['direccion_trabajo']; ?>" maxlength="75">
+                                    <input name="direccionTrabajo" type="text" class="form-control" value="<?php echo $paciente['direccion_trabajo']; ?>" maxlength="75">
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtLugarTrabajo">Lugar de trabajo</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-suitcase"></i></span>
-                                    <input name="lugarTrabajo" type="text" class="form-control" placeholder="Lugar de Trabajo" value="<?php echo $paciente['lugar_trabajo']; ?>" maxlength="75">
+                                    <input name="lugarTrabajo" type="text" class="form-control" value="<?php echo $paciente['lugar_trabajo']; ?>" maxlength="75">
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtOcupacion">Ocupación</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
                                     <input name="ocupacion" type="text" class="form-control" placeholder="Ocupación" maxlength="20" value="<?php echo $paciente['ocupacion']; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtTelefono">Teléfono</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                     <input name="telefono" type="text" class="form-control" placeholder="Teléfono" oninput="this.value =
@@ -120,6 +127,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtFechaNacimiento">Fecha de Nacimiento</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input name="fechaNacimiento" type="text" placeholder="Fecha de nacimiento" class="form-control" min="1970-01-01" max="<?php echo date('Y-m-d') ?>" onfocus="this.type='date'" value="<?php echo $paciente['fecha_nacimiento']; ?>" required>
@@ -127,14 +135,16 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
+                            <label for="txtDpi">DPI</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-table"></i></span>
-                                    <input name="dpi" type="text" class="form-control" placeholder="DPI" oninput="this.value =
+                                    <input name="dpi" type="text" class="form-control" oninput="this.value =
 									this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g, '$1');" maxlength="13" value="<?php echo $paciente['dpi']; ?>">
                                 </div>
                             </div>
 
                             <div class="form-group col-md-4">
+                            <label for="txt">Sexo</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-intersex"></i></span>
                                     <select name="genero" class="form-control">
@@ -144,6 +154,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtEstadoCivil">Estado Civil</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-mars-stroke-v"></i></span>
                                     <select name="estadoCivil" class="form-control">
@@ -158,6 +169,7 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
+                            <label for="txtTipoSangre">Escolaridad</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-university"></i></span>
                                     <select name="escolaridad" class="form-control">
@@ -174,10 +186,11 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
+                            <label for="txtTipoSangre">Tipo de sangre</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                                    <select name="tipoSangre" class="form-control">
-                                        <option selected disabled>Tipo de sangre</option>
+                                    <select name="tipoSangre" class="form-control">              
+                                        <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'No sabe') echo 'selected' ?>>No sabe</option>
                                         <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'O Positivo') echo 'selected' ?>>O Positivo</option>
                                         <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'O Negativo') echo 'selected' ?>>O Negativo</option>
                                         <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'A Positivo') echo 'selected' ?>>A Positivo</option>
@@ -190,6 +203,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
+                            <label for="txtConyugue">Cónyugue </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input name="conyugue" type="text" class="form-control" placeholder="Nombre del cónyugue" oninput="this.value =

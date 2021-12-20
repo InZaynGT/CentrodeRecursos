@@ -4,14 +4,14 @@ require_once 'models/configuracionModel.php';
 class Patient extends Configuracion {
 
 	public function addPatient($nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
-    $fechaNacimiento,$dpi,$genero, $estadoCivil, $escolaridad, $tipoSangre, $conyugue, $responsable, $padre, $madre, 
+    $fechaNacimiento,$dpi,$genero, $estadoCivil, $escolaridad, $tipoSangre, $conyugue, $responsable,$religion, $padre, $madre, 
     $hermanos, $observaciones,$fechaIngreso,$foto
     ) {
 		
 		$pdo = parent::conexion();
 		$stmt = $pdo->prepare("call insertar_paciente(:nombres,:apellidos,:direccion,:direccionTrabajo,:lugarTrabajo,
         :ocupacion,:telefono,:fechaNacimiento,:dpi,:genero,:estadoCivil,:escolaridad,:tipoSangre,:conyugue,:responsable,
-        :padre,:madre,:hermanos,:observaciones,:fechaIngreso,:nombreFoto);");
+        :religion,:padre,:madre,:hermanos,:observaciones,:fechaIngreso,:nombreFoto);");
 		$stmt->bindParam(':nombres', $nombres);
 		$stmt->bindParam(':apellidos', $apellidos);
 		$stmt->bindParam(':direccion', $direccion);
@@ -24,9 +24,10 @@ class Patient extends Configuracion {
         $stmt->bindParam(':genero', $genero);
         $stmt->bindParam(':estadoCivil', $estadoCivil);
         $stmt->bindParam(':escolaridad', $escolaridad);
-        $stmt->bindParam(':tipoSangre', $tipoSangre);
+        $stmt->bindParam(':tipoSangre', $tipoSangre); 
         $stmt->bindParam(':conyugue', $conyugue);
         $stmt->bindParam(':responsable', $responsable);
+        $stmt->bindParam(':religion', $religion);
         $stmt->bindParam(':padre', $padre);
         $stmt->bindParam(':madre', $madre);
         $stmt->bindParam(':hermanos', $hermanos);
@@ -34,6 +35,9 @@ class Patient extends Configuracion {
         $stmt->bindParam(':fechaIngreso', $fechaIngreso);
         $stmt->bindParam(':nombreFoto',$foto);
 		$insert = $stmt->execute();
+        if ($insert == false){
+            print_r($stmt->errorInfo());
+                }
         return $insert;
 
         //Para comprobar si hay un error al insertar
