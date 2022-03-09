@@ -284,7 +284,6 @@ $minS = 'Paciente'; ?>
                         </div>
                         <div class="modal-footer clearfix">
 
-
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
 
                             <button type="submit" class="btn btn-primary pull-left"><i class="fa fa-save"></i> Guardar</button>
@@ -304,11 +303,18 @@ $minS = 'Paciente'; ?>
                         <script>
                             $(document).ready(function() {
                                 $("#tablaPacientes").DataTable({
-                                    "paging": "true",
-                                    "processing": "true",
-                                    //"ajax": "<?php echo BASE_DIR; ?>scripts/getData.php",
+                                    "serverSide": true,
+                                    "responsive": true,
+                                    "paging": true,
+                                    "processing": true,
+                                    "ajax": "<?php echo BASE_DIR; ?>serverside/getData.php",
                                     "pageLength": 50,
-                                    dom: 'Bfrtip',
+                                    "fnCreatedRow": function(nRow,aData,iDataIndex){
+
+                                        $('td:eq(5)', nRow).html('<a title="Editar" href="<?php echo BASE_DIR; ?>editar-pacientes/'+aData[0]+'-'+aData[1]+'"><i class="fa fa-edit"></i></a>');
+
+                                    },
+                                    dom: 'Blfrtip',
                                     order: [],
                                     buttons: [{
                                             extend: 'excel',
@@ -336,64 +342,26 @@ $minS = 'Paciente'; ?>
                         <table id="tablaPacientes" class="table table-bordered table-striped table-bordered table-condensed">
                             <thead>
                                 <tr>
-                                    <th>Código.</th>
+                                <th>Codigo</th>
                                     <th>Nombres y Apellidos</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Fecha Ingreso</th>
-                                    <th>Última Consulta</th>
-                                    <th>Estado</th>
-                                    <th>Opciones</th>
-                                </tr>
+                                    <th>Acciones</th>
+                                    
                             </thead>
                             <tbody>
-                                <?php foreach ($pacientes as $row) {
-
-                                ?>
-                                    <tr>
-                                        <td><?php echo $row['idpaciente']; ?> </td>
-                                        <td><?php echo $row['nombres'] . ' ' . $row['apellidos']; ?> </td>
-                                        <td><?php echo $row['direccion']; ?> </td>
-                                        <td><?php echo $row['telefono']; ?> </td>
-                                        <td><?php echo $row['fecha_ingreso']; ?> </td>
-                                        <td><?php echo $row['ultima_consulta']; ?> </td>
-                                        <td style="text-align:center">
-                                            <span class="label label-<?php echo ($row['estado'] == 1) ? 'success' : 'danger'; ?>">
-                                                <?php echo ($row['estado'] == 1) ? 'Activo' : 'Inactivo'; ?>
-                                            </span>
-
-                                        </td>
-                                        <td class="acciones">
-                                            <!--editar-pacientes es el nombre del controlador -->
-                                            <a title="Editar" <?php echo $minS; ?> href="<?php echo BASE_DIR; ?>editar-pacientes/<?php echo slug($row['idpaciente']);
-                                                                                                                                    ?>-<?php echo slug($row['nombres']); ?>"><i class="fa fa-edit"></i>
-                                            </a>
-
-                                            <?php if ($row['estado'] == 1) { ?>
-                                                <a title="Desactivar" href="<?php echo BASE_DIR; ?>desactivarPacientes/<?php echo slug($row['idpaciente']);
-                                                                                                                        ?>-<?php echo slug($row['nombres']); ?>" class="fa fa-times">
-                                                </a>
-                                            <?php } ?>
-                                            <?php if ($row['estado'] == 0) { ?>
-                                                <a title="Activar" href="<?php echo BASE_DIR; ?>activarPacientes/<?php echo slug($row['idpaciente']);
-                                                                                                                    ?>-<?php echo slug($row['nombres']); ?>" class="fa fa-check">
-                                                </a>
-                                            <?php } ?>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
+                                
                             </tbody>
                             
                             <tfoot>
                                 <tr>
-                                    <th>Código.</th>
+                                <th>Codigo</th>
                                     <th>Nombres y Apellidos</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Fecha Ingreso</th>
-                                    <th>Última Consulta</th>
-                                    <th>Estado</th>
-                                    <th>Opciones</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </tfoot>
                         </table>

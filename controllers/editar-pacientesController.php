@@ -31,7 +31,7 @@ if (count($_POST) > 0) {
 		$fechaModificacion = date('Y-m-d H:i:s');
         $usuarioModificacion = $_SESSION['user']['id'];
     
-		require_once 'models/pacientesModel.php';
+		require_once 'models/pacienteModel.php';
 		$u = new Patient();
 		$update = $u->updatePaciente($idItem, $nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
 		$fechaNacimiento,$dpi,$genero,$estadoCivil,$escolaridad,$tipoSangre,$conyugue,$responsable,$padre,$madre,$hermanos,$observaciones,
@@ -59,7 +59,7 @@ if (count($_POST) > 0) {
 }
 else {
 
-	require_once 'models/pacientesModel.php';
+	require_once 'models/pacienteModel.php';
 	$p = new Patient();
 	$paciente = $p->getPacientePorId($idItem);
 	$idEstadoCivil=$paciente['estado_civil'];

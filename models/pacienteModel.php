@@ -46,31 +46,6 @@ class Patient extends Configuracion {
 	   // }
     }
 
-    public function getPacientes(){
-		$pdo = parent::conexion();
-		$stmt = $pdo->prepare("SELECT * FROM vista_pacientes;");
-		$stmt->execute();
-
-		$result = $stmt->fetchAll();
-
-		foreach($result as $pacientes){
-			$data[] = array(
-				'idpaciente' => $pacientes["idpaciente"],
-                'nombres' => $pacientes["nombres"],
-                'apellidos' => $pacientes["apellidos"],
-                'direccion' => $pacientes["direccion"],
-                'telefono' => $pacientes["telefono"],
-                'fecha_ingreso' => $pacientes["fecha_ingreso"],
-                'ultima_consulta' => $pacientes["ultima_consulta"],
-                'estado' =>$pacientes["estado"]
-
-			);
-		}
-
-		return $data;
-
-	}
-
     public function updatePaciente($idItem, $nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
     $fechaNacimiento,$dpi,$genero,$estadoCivil,$escolaridad,$tipoSangre,$conyugue,$responsable,$padre,$madre,$hermanos,$observaciones,
     $fechaModificacion,$usuarioModificacion){
@@ -111,6 +86,7 @@ class Patient extends Configuracion {
     
     }
 
+    //funcion que sirve para llenar los datos del paciente en agregar-consulta
     public function getPacientePorId($idPaciente){
         $pdo = parent::conexion();
         $paciente = array();

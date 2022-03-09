@@ -105,15 +105,10 @@
 
 
 						//Sesion del usuario
-						$nombres = explode(" ",$user[0]['NOMBRES']);
-						$apellidos = explode(" ",$user[0]['APELLIDOS']);
-
+						$_SESSION['user']['id'] = $user[0]['ID_USUARIO'];
+						$_SESSION['user']['usuario'] = $user[0]['NOMBREYAPELLIDO'];
 						$_SESSION['user']['username'] = $user[0]['NICK'];
 						$_SESSION['user']['frase'] = $user[0]['FRASE'];
-						$_SESSION['user']['usuario'] = $nombres[0].' '.$apellidos[0];
-						$_SESSION['user']['id'] = $user[0]['ID_USUARIO'];
-						$_SESSION['user']['id_empleado'] = $user[0]['ID_EMPLEADO'];
-						$_SESSION['user']['puesto'] = $user[0]['PUESTO'];
 						
 						setcookie('id',$_SESSION['user']['id'] , time() + (86400 * 60));
 

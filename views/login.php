@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Administraci&oacute;n :: Taller</title>
+	<title>Administraci&oacute;n :: Clinica</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
 	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>favicon.ico" type="image/x-icon" >
 	<link href="<?php echo BASE_DIR ?>css/font-awesome.css" rel="stylesheet" type="text/css" />
@@ -11,8 +11,21 @@
 	<link href="<?php echo BASE_DIR ?>css/theme.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/login.css" rel="stylesheet" type="text/css" />
 
+		<!-------  PWA ------->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="Sistema">
+	<meta name="apple-mobile-web-app-title" content="Sistema">
+	<meta name="theme-color" content="#404242">
+	<meta name="msapplication-navbutton-color" content="#404242">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="msapplication-starturl" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!------- END PWA ------->
+	<link rel="manifest" href="manifest_v_0.2.json">
     <script src="<?php echo BASE_DIR; ?>js/jquery-1.11.1.js"></script>
-    <script src="<?php echo BASE_DIR; ?>js/bootstrap.min.js" type="text/javascript"></script>
+ 
+		
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>

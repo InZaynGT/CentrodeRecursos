@@ -7,7 +7,7 @@ $dbDetails = array(
     'db' => 'clinica'
 );
 //db table to use
-$table = 'paciente';
+$table = 'vista_pacientes';
 
 // table´s primary key
 $primaryKey = 'idpaciente';
@@ -17,17 +17,20 @@ $primaryKey = 'idpaciente';
 //dt parameter represents the datatables column identifier
 
 $columns = array(
-    array('db' => 'nombres','dt' => 0),
-    array('db' => 'direccion','dt'=> 1),
-    array('db' => 'telefono','dt' => 2)
+    array('db' => 'idpaciente','dt' => 0),
+    array('db' => 'nombres','dt' => 1),
+    array('db' => 'direccion','dt'=> 2),
+    array('db' => 'telefono','dt' => 3),
+    array('db' => 'fecha_ingreso','dt' => 4),
+    array('db' => '','dt' => 5)
     
 );
 
 //include sql query processing class
-require_once('C:\xampp\htdocs\clinica\scripts\ssp.class.php');
+require_once('C:\xampp\htdocs\clinica\serverside\ssp.class.php');
 
 //output data as json format
 echo json_encode(
-    SSP::simple($_POST, $dbDetails,$table,$primaryKey,$columns)
+    SSP::simple($_GET, $dbDetails,$table,$primaryKey,$columns)
 
 );

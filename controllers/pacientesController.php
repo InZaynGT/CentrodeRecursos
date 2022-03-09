@@ -1,12 +1,12 @@
 <?php
-permiso(1);
+//permiso(1);
 if (count($_POST) > 0) {
 	if (count($_POST) > 0 && isset($_POST['nombres']) && isset($_POST['apellidos']) && isset($_POST['direccion']) 
 	&& isset($_POST['direccionTrabajo']) && isset($_POST['lugarTrabajo']) && isset($_POST['ocupacion']) && isset($_POST['telefono'])
 	&& isset($_POST['fechaNacimiento']) && isset($_POST['dpi']) && isset($_POST['genero']) && isset($_POST['estadoCivil']) 
 	&& isset($_POST['escolaridad']) && isset($_POST['tipoSangre']) && isset($_POST['conyugue']) && isset($_POST['responsable'])
 	&& isset($_POST['religion']) && isset($_POST['padre']) && isset($_POST['madre']) && isset($_POST['hermanos']) 
-	&&isset($_POST['observaciones'])
+	&& isset($_POST['observaciones'])
 	) {
 
 		$nombres = $_POST['nombres'];
@@ -54,7 +54,7 @@ if (count($_POST) > 0) {
 		}
 	
 		
-		require_once 'models/pacientesModel.php';
+		require_once 'models/pacienteModel.php';
 						$p = new Patient();
 						$insert = $p->addPatient($nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
 						$fechaNacimiento,$dpi,$genero, $estadoCivil, $escolaridad, $tipoSangre, $conyugue, $responsable,$religion, $padre, $madre, 
@@ -85,15 +85,7 @@ if (count($_POST) > 0) {
 	}
 }
 else {
-	{
-		require_once 'models/pacientesModel.php';
-		$load = new Patient();
-		$pacientes = $load->getPacientes();
-		$load = null;
-
 	
-		}
-
 	require_once 'views/header.php';
 	require_once 'views/pacientes.php';
 	require_once 'views/footer.php';

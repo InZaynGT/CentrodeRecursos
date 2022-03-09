@@ -1,5 +1,5 @@
 <?php
-permiso(1);
+//permiso(1);
 if (count($_POST) > 0) {
 	if (count($_POST) > 3 && isset($_POST['empleado']) && isset($_POST['nick']) && isset($_POST['password'])
 			&& isset($_POST['password2'])) {

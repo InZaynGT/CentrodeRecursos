@@ -59,13 +59,14 @@ class Usuario extends Configuracion {
 		$usuario = array();
 		$password = md5($password);
 
-		$stmt = $pdo->prepare("SELECT u.ID_USUARIO, u.NICK,u.PASS, u.FRASE, e.NOMBRES,e.ESTADO,e.ID_EMPLEADO, e.APELLIDOS,e.PUESTO FROM WEB_USUARIO u
-									INNER JOIN WEB_EMPLEADO e ON e.id_empleado = u.id_empleado
-									WHERE u.NICK = :nickUsuario
-									AND u.PASS = :password LIMIT 1 ;");
+		$stmt = $pdo->prepare("SELECT ID_USUARIO, NOMBREYAPELLIDO, NICK, PASS, FRASE, ESTADO FROM WEB_USUARIO WHERE NICK = :nickUsuario
+								AND PASS = :passwrd LIMIT 1;");
 		$stmt->bindParam(':nickUsuario', $nickUsuario);
-		$stmt->bindParam(':password', $password);
-		$stmt->execute();
+		$stmt->bindParam(':passwrd', $password);
+		$result=$stmt->execute();
+		if(!$result){
+			die($stmt->errorInfo());
+		}
 
 		while( $resultado = $stmt->fetch(PDO::FETCH_ASSOC) ){
 			$usuario[] = $resultado;

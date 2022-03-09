@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title><?php echo $tituloPagina; ?></title>
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>favicon.ico" type="image/x-icon" >
+	<meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />
+	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>favicon.ico" type="image/x-icon">
 	<link href="<?php echo BASE_DIR ?>css/bootstrap.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/font-awesome.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/theme.css" rel="stylesheet" type="text/css" />
@@ -17,43 +18,51 @@
 	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	<![endif]-->
-    <script src="<?php echo BASE_DIR; ?>js/jquery-1.11.1.js"></script>
+	<script src="<?php echo BASE_DIR; ?>js/jquery-1.11.1.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#example1").dataTable({dom: 'Bfrtip',
-				buttons:
-				[
-					{ extend: 'excel', footer: true },
-					{ extend: 'pdf', footer: true,
+			$("#example1").dataTable({
+				dom: 'Bfrtip',
+				buttons: [{
+						extend: 'excel',
+						footer: true
+					},
+					{
+						extend: 'pdf',
+						footer: true,
 						orientation: 'landscape',
 						pageSize: 'LETTER',
-						message:function () {
+						message: function() {
 							return $("#example1_info").text();
-						} },
-					{ extend: 'print', footer: true,
+						}
+					},
+					{
+						extend: 'print',
+						footer: true,
 						orientation: 'landscape',
 						pageSize: 'LETTER',
-						message:function () {
+						message: function() {
 							return $("#example1_info").text();
-						} }
+						}
+					}
 				]
 
 			});
-			$('input').attr('autocomplete','off');
+			$('input').attr('autocomplete', 'off');
 
 			$(".clicmenu").click(function() {
-			  // alert($(this).attr("data-link"));
-			  $("html, body").animate({
-						scrollTop: $("#"+$(this).attr("data-link")).offset().top
-					}, 400);
+				// alert($(this).attr("data-link"));
+				$("html, body").animate({
+					scrollTop: $("#" + $(this).attr("data-link")).offset().top
+				}, 400);
 			});
 
-			$( document ).ajaxStart(function() {
+			$(document).ajaxStart(function() {
 				$("input[type=submit]").prop('disabled', true);
 				$("input[type=button]").prop('disabled', true);
 				$("button").prop('disabled', true);
 			});
-			$( document ).ajaxComplete(function() {
+			$(document).ajaxComplete(function() {
 				$("input[type=submit]").prop('disabled', false);
 				$("input[type=button]").prop('disabled', false);
 				$("button").prop('disabled', false);
@@ -61,20 +70,10 @@
 		});
 	</script>
 
-    <script src="<?php echo BASE_DIR; ?>js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="<?php echo BASE_DIR; ?>js/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="<?php echo BASE_DIR; ?>js/dataTables.bootstrap.js" type="text/javascript"></script>
-    <script src="<?php echo BASE_DIR; ?>js/app.js" type="text/javascript"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo BASE_DIR; ?>js/dataTables.buttons.min.js"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo BASE_DIR; ?>js/jszip.min.js"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo BASE_DIR; ?>js/pdfmake.min.js"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo BASE_DIR; ?>js/vfs_fonts.js"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo BASE_DIR; ?>js/buttons.html5.min.js"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo BASE_DIR; ?>js/buttons.print.min.js"></script>
-
 </head>
- <body class="skin-blue">
-	 <!--<header class="header" style="position:fixed"-->
+
+<body class="skin-blue">
+	<!--<header class="header" style="position:fixed"-->
 	<header class="header">
 		<a href="<?php echo BASE_DIR; ?>" class="logo">
 			DOCTOR ASSIST
@@ -91,13 +90,13 @@
 				<ul class="nav navbar-nav">
 
 					<li class="user user-menu">
-						<a href="<?php echo BASE_DIR; ?>mi-cuenta" >
+						<a href="<?php echo BASE_DIR; ?>mi-cuenta">
 							<i class="fa fa-user"></i>
 							<span><?php echo $_SESSION['user']['username']; ?></span>
 						</a>
 					</li>
 					<li class="user user-menu">
-						<a href="<?php echo BASE_DIR; ?>logout" >
+						<a href="<?php echo BASE_DIR; ?>logout">
 							<i class="fa fa-sign-out"></i>
 							<span>Cerrar Sesi&oacute;n</span>
 						</a>
@@ -106,7 +105,7 @@
 			</div>
 		</nav>
 	</header>
-	<div class="wrapper row-offcanvas row-offcanvas-left " >
+	<div class="wrapper row-offcanvas row-offcanvas-left ">
 		<aside class="left-side sidebar-offcanvas">
 			<section class="sidebar">
 				<div class="user-panel">
@@ -120,7 +119,7 @@
 					</div>
 				</div>
 				<ul class="sidebar-menu">
-<!-- /////////////////////////// ESCRITORIO /////////////////////////////////// -->
+					<!-- /////////////////////////// ESCRITORIO /////////////////////////////////// -->
 					<li>
 						<a href="<?php echo BASE_DIR; ?>">
 							<i class="fa fa-dashboard"></i> <span>Escritorio</span>
@@ -139,18 +138,25 @@
 							<i class="fa fa-users"></i> <span>Pacientes</span>
 						</a>
 					</li>
-					<li>
-						<a href="<?php echo BASE_DIR; ?>consultas">
-							<i class="fa fa-user-md"></i> <span>Consultas</span>
+
+					<li class="treeview">
+						<div id="linkper"></div>
+						<a href="#" class="clicmenu" data-link="linkper">
+							<i class="fa fa-user-md"></i>
+							<span>Consultas</span>
+							<i class="fa pull-right fa-angle-right"></i>
 						</a>
+						<ul style="display: none;" class="treeview-menu">
+							<li><a href="<?php echo BASE_DIR; ?>agregar-consulta">Crear consulta</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>consultas">Listado de consultas</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>consultas">Reporte de consultas</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>servicios">Servicios</a></li>
+						</ul>
 					</li>
 
-
-<!-- /////////////////////////// VEHICULOS /////////////////////////////////// -->
-					
-<!-- /////////////////////////// PERSONAL /////////////////////////////////// -->
+					<!-- /////////////////////////// PERSONAL /////////////////////////////////// -->
 					<li class="treeview">
-						<div  id="linkper"></div>
+						<div id="linkper"></div>
 						<a href="#" class="clicmenu" data-link="linkper">
 							<i class="fa fa-sitemap"></i>
 							<span>Personal</span>

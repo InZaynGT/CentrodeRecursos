@@ -1,6 +1,6 @@
 <?php
 permiso(1);
-require_once 'models/pacientesModel.php';
+require_once 'models/pacienteModel.php';
 $p = new Patient();
 $deactivate = $p->desactivarPaciente($idItem);
 if($deactivate){

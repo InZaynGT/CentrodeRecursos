@@ -8,7 +8,7 @@ $idItem = (isset($_GET['subcf_vst']) ? $_GET['subcf_vst'] : 0);
 $slug = (isset($_GET['slug']) ? $_GET['slug'] : '');
 $tituloPagina = "Administraci&oacute;n :: Altek Systems";
 
-if (is_file('controllers/'.$vista.'Controller.php')) {
+if (is_file('controllers/'.$vista.'Controller.php') ) {
 	if (isset($_SESSION['user']['username'])) {	
 	   require_once 'controllers/'.$vista.'Controller.php';
 	}

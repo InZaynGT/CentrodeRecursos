@@ -11,7 +11,7 @@
 	define('DB_NAME', 'clinica');
 	define('DB_USER', 'root');
 	define('DB_PASSWD', 'root');
-	define('BASE_DIR', 'https://localhost/clinica/');
+	define('BASE_DIR', 'http://localhost/clinica/');
 	
 
 	function slug($string){
@@ -24,7 +24,7 @@
 		return strtolower($slug);
 	}
 
-        function permiso($requerido, $requerido2='') {
+     /*   function permiso($requerido, $requerido2='') {
 		if ($requerido == $_SESSION['user']['puesto'] || $_SESSION['user']['puesto'] == 4) {
 			// echo 'SI TIENE PERMISO';
 		}
@@ -35,7 +35,7 @@
 			require_once 'views/404.php';
 			exit;
 		}
-	}
+	}*/
      function mostrarFiltroFecha($idTabla, $numeroColumna, $verFiltroFecha = true, $tituloReporte = '', $columnas = array(), $anchoColumna = 6) {
 		require_once 'views/filtro-fecha.php';
 	}
