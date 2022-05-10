@@ -8,7 +8,7 @@ class Servicio extends Configuracion {
     public function getServicios(){
         $pdo = parent::conexion();
         $servicios = array();
-        $stmt = $pdo->prepare('call mostrar_listado_servicios; ');
+        $stmt = $pdo->prepare('SELECT * FROM mostrar_listado_servicios; ');
         $stmt->execute();
         while ($result = $stmt->fetch(PDO::FETCH_ASSOC) ){
             $servicios[] = $result;
@@ -37,6 +37,11 @@ class Servicio extends Configuracion {
         $stmt->bindParam(":precio", $precioServicio);
         $result = $stmt->execute();
 
+        if(!$result){
+            print_r($stmt->errorInfo());
+            die();
+        }
+
         return $result;
 
     }
@@ -44,7 +49,7 @@ class Servicio extends Configuracion {
     public function getServicioPorID($id) {
         $pdo = parent::conexion();
         $servicio = array();
-        $stmt = $pdo->prepare("call servicio_por_id(:id);");
+        $stmt = $pdo->prepare("SELECT * FROM servicio_por_id WHERE idservicio = :id;");
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         while( $resultado = $stmt->fetch(PDO::FETCH_ASSOC) ){

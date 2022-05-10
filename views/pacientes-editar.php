@@ -1,9 +1,14 @@
-<script src="<?php echo BASE_DIR; ?>js/jquery-ui.js"></script>
 <link rel="stylesheet" href="<?php echo BASE_DIR; ?>css/jquery-ui.css">
 <link rel="stylesheet" href="<?php echo BASE_DIR; ?>css/pacientes.css">
+<script src="<?php echo BASE_DIR; ?>js/jquery-ui.js"></script>
+<script src="<?php echo BASE_DIR; ?>js/webcam.js"></script>
 
 <script>
- $(function() {
+    $(document).ready(function() {
+        $("#capture").hide();
+        $("#off").hide()
+    })
+    $(function() {
         $("#editPatient").submit(function() {
             $.ajax({
                 type: "POST",
@@ -19,6 +24,66 @@
             return false;
         });
     });
+
+    	//Abre la camara
+	function openCamera() {
+        Webcam.reset()
+        $('#results').show()
+
+        Webcam.set({
+            width: 200,
+            height: 150,
+			dest_width : 400,
+			dest_height: 300,
+            image_format: 'jpeg',
+            jpeg_quality: 100
+        });
+
+        $('#sinFoto').remove()
+        Webcam.attach('#my_camera')
+        var x = document.getElementById("capture");
+        if (x.style.display === "none") {
+            x.style.display = "inline-block"
+            $("#off").show()
+            $("#open").hide()
+        } else {
+            x.style.display = "none";
+            $("#off").hide()
+        }
+    }
+
+    //toma la foto y se asigna a la etiqueta img
+    function take_snapshot() {
+        Webcam.snap(function(data_uri) {
+            $(".image-tag").val(data_uri)
+            document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
+        })
+        Webcam.reset()
+        $('#off').hide()
+        $('#open').hide()
+
+        //ocultar el boton tomar foto una vez se toma la foto
+        var x = document.getElementById("capture");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            
+        } else {
+            x.style.display = "none";
+
+        }
+
+
+    }
+
+    function camera_off(){
+        Webcam.reset()
+        $('#capture').hide()
+        $('#off').hide()
+        $('#open').show()
+        $('#results').hide()
+
+
+    }
 </script>
 <?php $min = 'Pacientes';
 $may = 'PACIENTES';
@@ -46,35 +111,44 @@ $minS = 'Paciente'; ?>
                     <form id="editPacient" method="POST">
                         <div class="modal-body">
 
-                            <div class="foto-div" >
-                              
+                            <div class="foto-div">
+
                                 <?php
                                 //obtiene la imagen del servidor con el nombre guardado en la base de datos,
                                 //si no existe coloca una generica
-                                $imagesDir = "/xampp/uploads/";
-                                $content = @file_get_contents($imagesDir.$paciente['foto'].'.png');
+                                $imagesDir = "/xampp/uploads/pacientes/";
+                                $content = @file_get_contents($imagesDir . $paciente['foto'] . '.png');
                                 $content = base64_encode($content);
-                                
+
                                 base64_decode($content);
 
                                 ?>
-                                <?php if($content != '') { ?>
-                                
-                                <img class="img-paciente" src ="data:image/png;base64, <?php echo $content?> "/>
-                                
+                                <?php if ($content != '') { ?>
+
+                                    <img class="img-paciente" src="data:image/png;base64, <?php echo $content ?> " />
+
                                 <?php } else { ?>
-                                    <?php $content = file_get_contents($imagesDir.'user.png');
-                                     $content = base64_encode($content);
-                                     base64_decode($content);
+                                    <?php $content = file_get_contents($imagesDir . 'user.png');
+                                    $content = base64_encode($content);
+                                    base64_decode($content);
                                     ?>
-                                    <img class="img-paciente" src ="data:image/png;base64, <?php echo $content?> "/>
-                                    <?php } ?>
-                                
-                                    <input name="imagen" type="button" value="Cambiar foto" onClick="">
+                                    <img id="sinFoto" class="img-paciente" src="data:image/png;base64, <?php echo $content ?> " />
+                                <?php } ?>
+
+                                <div id="results">
+                                    <div id="my_camera"></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <span class="input-group-addon"><i class="fa fa-camera"></i>
+                                    <input type="button" id="capture" value="Tomar foto" onClick="take_snapshot() " >
+                                    <input type="button" id="off" value="Apagar" onClick="camera_off()">
+                                    <input name="imagen" type="button" id="open" value="Encender cámara" onClick="openCamera()">
+                                    <input type="hidden" name="imagePaciente" class="image-tag">
                             </div>
 
                             <div class="form-group col-md-4">
-                            <label for="txtNombres">Nombres</label>
+                                <label for="txtNombres">Nombres</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input name="nombres" type="text" class="form-control" placeholder="Nombres" oninput="this.value =
@@ -82,7 +156,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtApellidos">Apellidos</label>
+                                <label for="txtApellidos">Apellidos</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input name="apellidos" type="text" class="form-control" placeholder="Apellidos *" oninput="this.value =
@@ -91,35 +165,35 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
-                            <label for="txtDireccion">Dirección</label>
+                                <label for="txtDireccion">Dirección</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
                                     <input name="direccion" type="text" class="form-control" placeholder="Dirección" maxlength="75" value="<?php echo $paciente['direccion']; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtDireccionTrabajo">Dirección de trabajo</label>
+                                <label for="txtDireccionTrabajo">Dirección de trabajo</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-suitcase"></i></span>
                                     <input name="direccionTrabajo" type="text" class="form-control" value="<?php echo $paciente['direccion_trabajo']; ?>" maxlength="75">
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtLugarTrabajo">Lugar de trabajo</label>
+                                <label for="txtLugarTrabajo">Lugar de trabajo</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-suitcase"></i></span>
                                     <input name="lugarTrabajo" type="text" class="form-control" value="<?php echo $paciente['lugar_trabajo']; ?>" maxlength="75">
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtOcupacion">Ocupación</label>
+                                <label for="txtOcupacion">Ocupación</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
                                     <input name="ocupacion" type="text" class="form-control" placeholder="Ocupación" maxlength="20" value="<?php echo $paciente['ocupacion']; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtTelefono">Teléfono</label>
+                                <label for="txtTelefono">Teléfono</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                     <input name="telefono" type="text" class="form-control" placeholder="Teléfono" oninput="this.value =
@@ -127,7 +201,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtFechaNacimiento">Fecha de Nacimiento</label>
+                                <label for="txtFechaNacimiento">Fecha de Nacimiento</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     <input name="fechaNacimiento" type="text" placeholder="Fecha de nacimiento" class="form-control" min="1970-01-01" max="<?php echo date('Y-m-d') ?>" onfocus="this.type='date'" value="<?php echo $paciente['fecha_nacimiento']; ?>" required>
@@ -135,7 +209,7 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
-                            <label for="txtDpi">DPI</label>
+                                <label for="txtDpi">DPI</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-table"></i></span>
                                     <input name="dpi" type="text" class="form-control" oninput="this.value =
@@ -144,17 +218,18 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
-                            <label for="txt">Sexo</label>
+                                <label for="txt">Sexo</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-intersex"></i></span>
                                     <select name="genero" class="form-control">
-                                        <option value="<?php echo $genero['codigo']; ?>" <?php if ($genero['nombre'] == 'Masculino') echo 'selected' ?>>Masculino</option>
-                                        <option value="<?php echo $genero['codigo']; ?>" <?php if ($genero['nombre'] == 'Femenino') echo 'selected' ?>>Femenino</option>
+                                        <?php foreach($genero as $gen){ ?>
+                                            <option value="<?php echo $gen['codigo']; ?>" <?php if ($gen['codigo'] ==$paciente['genero'] ) echo 'selected' ?>><?php echo $gen['nombre']?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtEstadoCivil">Estado Civil</label>
+                                <label for="txtEstadoCivil">Estado Civil</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-mars-stroke-v"></i></span>
                                     <select name="estadoCivil" class="form-control">
@@ -169,7 +244,7 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
-                            <label for="txtTipoSangre">Escolaridad</label>
+                                <label for="txtTipoSangre">Escolaridad</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-university"></i></span>
                                     <select name="escolaridad" class="form-control">
@@ -186,10 +261,10 @@ $minS = 'Paciente'; ?>
                             </div>
 
                             <div class="form-group col-md-4">
-                            <label for="txtTipoSangre">Tipo de sangre</label>
+                                <label for="txtTipoSangre">Tipo de sangre</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                                    <select name="tipoSangre" class="form-control">              
+                                    <select name="tipoSangre" class="form-control">
                                         <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'No sabe') echo 'selected' ?>>No sabe</option>
                                         <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'O Positivo') echo 'selected' ?>>O Positivo</option>
                                         <option value="<?php echo $tipoSangre['codigo']; ?>" <?php if ($tipoSangre['nombre'] == 'O Negativo') echo 'selected' ?>>O Negativo</option>
@@ -203,7 +278,7 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
-                            <label for="txtConyugue">Cónyugue </label>
+                                <label for="txtConyugue">Cónyugue </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input name="conyugue" type="text" class="form-control" placeholder="Nombre del cónyugue" oninput="this.value =
@@ -218,8 +293,19 @@ $minS = 'Paciente'; ?>
 									this.value.replace(/[^a-zA-Z ]/g,'').replace(/(\..*)\./g, '$1');" maxlength="75" value="<?php echo $paciente['responsable']; ?>">
                                 </div>
                             </div>
-                            <h4 class="modal-header"><i class="fa fa-file-o"></i> Antecedentes familiares</h4>
                             <div class="form-group col-md-4">
+                            <label for="lblResponsable">Religión </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-exclamation"></i></span>
+                                    <input name="religion" type="text" class="form-control" placeholder="Religión" oninput="this.value =
+									this.value.replace(/[^a-zA-Z ]/g,'').replace(/(\..*)\./g, '$1');" maxlength="40" value="<?php echo $paciente['religion']; ?>" >
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                            <h4 class="modal-header"><i class="fa fa-file-o"></i> Antecedentes familiares</h4>
+                            </div>
+                            <div class="form-group col-md-4">
+                            
                                 <label for="lblPadre">Padre </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>

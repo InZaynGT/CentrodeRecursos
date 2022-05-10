@@ -1,39 +1,10 @@
 <?php
+
 if (!empty($_POST)) {
-    if (count($_POST) == 1  && isset($_POST['buscarPaciente'])) {
 
-        //se obtiene la string que hayan seleccionado luego se saca el codigo del paciente y se busca la info
-        $buscar = $_POST['buscarPaciente'];
-        $order   = array('-');
-        $buscar = str_replace($order, '', $buscar);
-        $buscarCodCliente  = explode(" ", $buscar);
-        require_once 'models/pacienteModel.php';
-        //funcion para obtener los datos del paciente
-        $p = new Patient();
-        $paciente = $p->getPacientePorId($buscarCodCliente[0]);
-        unset($p);
-
-        //Desde aqui se mandan los datos a la vista agregar-consulta
-        echo '
-            <script>
-             $("#idPaciente").val("';
-        echo $paciente['idpaciente'];
-        echo '");
-            $("#nombrePaciente").val("';
-        echo $paciente['nombres'] . ' ' . $paciente['apellidos'];
-        echo '");
-            </script>
-            ';
-
-        //Minimiza el arrow-down de seleccionar paciente
-        echo '
-        <script>
-        $("#btnMinimizar").trigger( "click" );
-        </script>';
-    } else {
         if ($_POST > 1 && isset($_POST['fecha']) && isset($_POST['idPaciente']) && isset($_POST['nombrePaciente'])) {
 
-
+            $idConsulta = $idItem;
             $idPaciente = $_POST['idPaciente'];
             $fechaConsulta = new DateTime($_POST['fecha']);
             $idUsuario = $_SESSION['user']['id'];
@@ -53,16 +24,16 @@ if (!empty($_POST)) {
             $esEmbarazada = isset($_POST['chkEmbarazoSi']) ? True : False;
             $semanasEmbarazo = $_POST['ag_SemanasEmbarazo'];
             $metodoAnticonceptivo = $_POST['ag_Metodos'];
-            $fur = empty($_POST['ag_Fur']) ? "" : new DateTime($_POST['ag_Fur']);
-            $furInsert= empty($fur) ? "" : $fur->format('Y-m-d');
+            $fechFur = str_replace('/','-',$_POST['ag_Fur']);
+            $fur = new DateTime($fechFur);
             $partos = $_POST['ao_Partos'];
             $cesareas = $_POST['ao_Cesareas'];
             $abortos = $_POST['ao_Abortos'];
             $hv = $_POST['ao_Hv'];
             $hm = $_POST['ao_Hm'];
             $obitoFetal = $_POST['ao_ObitoFetal'];
-            $ultimoPapanicolaou = empty($_POST['ao_ultimoPapanico']) ? "" :  new DateTime($_POST['ao_ultimoPapanico']);
-            $ultPap = empty($ultimoPapanicolaou) ? "" : $ultimoPapanicolaou->format('Y-m-d');
+            $fechUP = str_replace('/','-',$_POST['ao_ultimoPapanico']);
+            $ultimoPapanicolaou = new DateTime($fechUP);
             $cantidadPapanicolaou = $_POST['ao_cantidadPapanico'];
             $parejassexuales = $_POST['ao_Ps'];
             $inicioVidaSexual = $_POST['ao_Ivs'];
@@ -112,7 +83,8 @@ if (!empty($_POST)) {
             $sugerencia = $_POST['sugerencia'];
             $tratamientoAdoptado = $_POST['tratamientoAdopt'];
             $referidoA = $_POST['referidoA'];
-            $fechaReferencia = $_POST['fechaReferencia'];
+            $fref = str_replace('/','-',$_POST['fechaReferencia']);
+            $fechaReferencia = new DateTime($fref);
             $img = isset($_POST['imageColposcopia']) ? $_POST['imageColposcopia']: NULL ;
 
             if(empty($img)){
@@ -142,11 +114,12 @@ if (!empty($_POST)) {
 
             require_once 'models/consultaModel.php';
             $c = new Consulta();
-            //Guarda el encabezado de la consulta
-            $idConsulta = $c->setConsultaEnc($idPaciente, $fechaConsulta->format('Y-m-d'), $idUsuario);
+            //Actualiza el encabezado de la consulta
+            //idItem es el valor que va en la URL, identificador de la consulta
+            $c->updateConsultaEnc($idPaciente, $idItem,$idUsuario);
 
             //Guarda los antecedentes de la consulta
-            $c->setAntecedentes(
+            $c->updateAntecedentes(
                 $idConsulta,
                 $motivo,
                 $historiaEnfermedad,
@@ -164,14 +137,14 @@ if (!empty($_POST)) {
                 $esEmbarazada,
                 $semanasEmbarazo,
                 $metodoAnticonceptivo,
-                $furInsert,
+                $fur->format('Y-m-d'),
                 $partos,
                 $cesareas,
                 $abortos,
                 $hv,
                 $hm,
                 $obitoFetal,
-                $ultPap,
+                $ultimoPapanicolaou->format('Y-m-d'),
                 $cantidadPapanicolaou,
                 $parejassexuales,
                 $inicioVidaSexual,
@@ -179,7 +152,7 @@ if (!empty($_POST)) {
             );
 
             //Guarda los datos del examen fisico de la consulta
-            $c->setExamenFisico(
+            $c->updateExamenFisico(
                 $idConsulta,
                 $pA,
                 $temperatura,
@@ -201,7 +174,7 @@ if (!empty($_POST)) {
             );
 
             //Guarda los datos de la colposcopia de la consulta
-            $c->setColposcopia(
+            $c->updateColposcopia(
                 $idConsulta,
                 $referidoPor,
                 $mucosaOriginaria,
@@ -227,64 +200,80 @@ if (!empty($_POST)) {
                 $sugerencia,
                 $tratamientoAdoptado,
                 $referidoA,
-                $fechaReferencia,
+                $fechaReferencia->format('Y-m-d'),
                 $filename[0]
             );
 
             if (!empty($tiposUltrasonido)) {
+
+                //Se eliminan los ultradonidos para volver a insertarlos
+                $c->deleteUltrasonidos($idConsulta);
 
                 //Guarda el/los ultrasonidos de la consulta
                 for ($i = 0; $i <= count($tiposUltrasonido) - 1; $i++) {
                     $tipoUlt = $tiposUltrasonido[$i];
                     $valorUlt = $valorUltrasonido[$i];
 
-                    $c->setUltrasonido($idConsulta, $tipoUlt, $valorUlt, $i);
+                    $c->setUltrasonido($idConsulta, $tipoUlt,$valorUlt, $i);
                 }
 
                 unset($c);
 
                 echo '
 				<script>
-					window.location.href = "'.BASE_DIR.'consultas";
+					window.location.href = "'.BASE_DIR.'editar-consulta/'.$idItem.'-'.$idPaciente.'";
 				</script>
 			';
 
             }else {
                 if (!empty($tiposUltrasonido && $valorUltrasonido) ){
-                    $c->setUltrasonido($idConsulta, $tiposUltrasonido, $valorUltrasonido, 0);
-                    unset($c);
-
-                }else {
+                $c->setUltrasonido($idConsulta, $tiposUltrasonido,$valorUltrasonido, 0);
+                unset($c);
+                }else{
                     exit;
-                }
 
-                
+                }
 
                 echo '
 				<script>
-					window.location.href = "'.BASE_DIR.'consultas";
-				</script>
-			';
+                window.location.href = "'.BASE_DIR.'editar-consulta/'.$idItem.'-'.$idPaciente.'";
+				</script>';
             }
         } else {
             exit;
         }
-    }
 } else {
 
-    //se traen los campos de la tabla genericos para llenar los option en agregar-consulta
-    require_once 'models/consultaModel.php';
+require_once 'models/consultaModel.php';
+$con = new Consulta();
+$consulta = $con->getConsultaPorID($idItem);
 
-    $d = new Consulta();
-    $cantidadDolor = $d->getDolor();
-    $ets = $d->getEts();
-    $metodosAnti = $d->getMetodosAnticonceptivos();
-    $tiposUltrasonido = $d->getTiposUltrasonido();
-    $tiposPeso = $d->getTiposPeso();
-    unset($d);
+$ultrasonidosConsulta = $con->getUtrasonidosConsulta($idItem);
 
-    require_once 'models/pacienteModel.php';
-    require_once 'views/header.php';
-    require_once 'views/agregar-consulta.php';
-    require_once 'views/footer.php';
+$idPaciente = $consulta['idpaciente'];
+require_once 'models/pacienteModel.php';
+$conn = new Patient();
+$paciente = $conn->getNombrePacientePorId($idPaciente);
+unset($conn);
+
+$idDolor = $consulta['agi_dolor'];
+$dolor = $con->getDolor();
+
+$idEts = $consulta['agi_ets'];
+$ets = $con->getEts();
+$tiposUltrasonido = $con->getTiposUltrasonido();
+
+$idMetodoA = $consulta['agi_metodoanticonceptivo'];
+$metodosAnticonceptivos = $con->getMetodosAnticonceptivos();
+
+$idPeso = $consulta['peso_calidad'];
+$tiposPeso = $con->getTiposPeso();
+
+unset($con);
+
+
+
+require_once 'views/header.php';
+require_once 'views/editar-consulta.php';
+require_once 'views/footer.php';
 }

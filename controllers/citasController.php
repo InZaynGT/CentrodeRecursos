@@ -1,5 +1,5 @@
 <?php
-permiso(1);
+
 if (count($_POST) > 0) {
 	if (isset($_POST['title']) && isset($_POST['color']) && isset($_POST['start']) && isset($_POST['end'])) {
         $title=$_POST['title'];

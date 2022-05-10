@@ -1,5 +1,5 @@
 <?php
-permiso(1);
+
 if (count($_POST) > 0) {
 	// print_r($_POST);
 	if (count($_POST) > 0  && isset($_POST['nombres']) && isset($_POST['apellidos']) && isset($_POST['direccion']) 
@@ -24,25 +24,48 @@ if (count($_POST) > 0) {
 		$tipoSangre = $_POST['tipoSangre'];
 		$conyugue = $_POST['conyugue'];
 		$responsable = $_POST['responsable'];
+		$religion = $_POST['religion'];
 		$padre = $_POST['padre'];
 		$madre = $_POST['madre'];
 		$hermanos = $_POST['hermanos'];
 		$observaciones = $_POST['observaciones'];
 		$fechaModificacion = date('Y-m-d H:i:s');
         $usuarioModificacion = $_SESSION['user']['id'];
-    
+		$img = $_POST['imagePaciente'];
+
+		if(empty($img)){
+			$filename[0]="";
+
+		}
+		else{
+			//subir la foto al directorio
+		$folderPath = "/xampp/uploads/pacientes/";
+
+		$image_parts = explode(";base64",$img);
+		$image_type_aux = explode("image/", $image_parts[0]);
+		$image_type = $image_type_aux[1];
+
+		$image_base64 = base64_decode($image_parts[1]);
+		$filename = uniqid("",false).'.png';
+
+		$file = $folderPath.$filename;
+		file_put_contents($file,$image_base64);
+		$filename = explode('.',$filename);
+
+		}
 		require_once 'models/pacienteModel.php';
 		$u = new Patient();
 		$update = $u->updatePaciente($idItem, $nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
-		$fechaNacimiento,$dpi,$genero,$estadoCivil,$escolaridad,$tipoSangre,$conyugue,$responsable,$padre,$madre,$hermanos,$observaciones,
-		$fechaModificacion,$usuarioModificacion);
+		$fechaNacimiento,$dpi,$genero,$estadoCivil,$escolaridad,$tipoSangre,$conyugue,$responsable,$religion,$padre,$madre,$hermanos,$observaciones,
+		$fechaModificacion,$usuarioModificacion, $filename[0]);
 		unset($u);
 
-		if ($update == true) {
+		if ($update) {
 			echo '
 				<script>
-				window.location.href ="'.BASE_DIR.'editar-pacientes/'.$idItem.'-'.slug($slug).'/update"
+					window.location.href = "'.BASE_DIR.'editar-pacientes/'.$idItem.'-'.$nombres.'/update";
 				</script>
+				
 			';
 		}
 		else {
@@ -51,6 +74,9 @@ if (count($_POST) > 0) {
 					<b>Error:</b> No se pudo actualizar el registro, recarge la p&aacute;gina e int&eacute;ntelo nuevamente.
 				</div>';
 		}
+			
+    
+		
 	}
 
 	else {
@@ -63,7 +89,6 @@ else {
 	$p = new Patient();
 	$paciente = $p->getPacientePorId($idItem);
 	$idEstadoCivil=$paciente['estado_civil'];
-	$idGenero =$paciente['genero'];
 	$idEscolaridad = $paciente['escolaridad'];
 	$idTipoSangre = $paciente['tipo_sangre'];
 	$foto = $paciente['foto'];
@@ -76,7 +101,7 @@ else {
 	unset($e);
 
 	$g = new Patient();
-	$genero = $g->getGenero($idGenero);
+	$genero = $g->getGenero();
 	unset($g);
 
 	$esc = new Patient();

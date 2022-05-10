@@ -19,10 +19,11 @@ $primaryKey = 'idpaciente';
 $columns = array(
     array('db' => 'idpaciente','dt' => 0),
     array('db' => 'nombres','dt' => 1),
-    array('db' => 'direccion','dt'=> 2),
-    array('db' => 'telefono','dt' => 3),
-    array('db' => 'fecha_ingreso','dt' => 4),
-    array('db' => '','dt' => 5)
+    array('db' => 'apellidos','dt' => 2),
+    array('db' => 'direccion','dt'=> 3),
+    array('db' => 'telefono','dt' => 4),
+    array('db' => 'fecha_ingreso','dt' => 5),
+    array('db' => '','dt' => 6)
     
 );
 

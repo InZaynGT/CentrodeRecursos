@@ -39,10 +39,23 @@
 
 <script>
     $(document).ready(function() {
+
         $("#capture").hide();
         $('#off').hide();
+        $
 
         $('#tabs').tab();
+
+        //Minimiza la busqueda de pacientes al editar
+        $("#btnMinimizar").trigger('click');
+
+        if ($('#chkEmbarazoSi').prop('checked')) {
+            $('input[name="ag_SemanasEmbarazo"]').show()
+        } else {
+            $('input[name="ag_SemanasEmbarazo"]').hide()
+        }
+
+
 
         //funcion ajax que sirve para llenar la busqueda de paciente, la url se manda para el controlador
         $("#buscarPaciente").autocomplete({
@@ -164,7 +177,7 @@
             html += '<div class="form-group col-sm-3">';
             html += '<div class="input-group">';
             html += '<span class="input-group-addon">Valor: </span>';
-            html += '<input type="number" name="valorUltrasonido[]" min="0" step="0.01" class="form-control" required></input>';
+            html += '<input type="number" name="valorUltrasonido[]" min="0" step="0.01" value="0" class="form-control" required></input>';
             html += '</div>';
             html += '</div>';
             html += '<button id="removeRow" type="button" class="btn btn-danger">Eliminar fila</button>';
@@ -172,19 +185,17 @@
             html += '</div>';
 
             $('#newRow').append(html);
-            $("#captureUlt").hide();
-            $('#offUlt').hide();
 
         })
-        //Elimina las filas de los ultrasonidos cuando se le da click al botón eliminar
+
         $(document).on('click', '#removeRow', function() {
             $(this).closest('#inputFormRow').remove();
         })
-        
+
     })
 
     //Abre la camara
-    function openCamera() {
+    function open_camera() {
         Webcam.reset()
         $('#results').show()
 
@@ -203,6 +214,7 @@
             x.style.display = "inline-block"
             $("#off").show()
             $("#open").hide()
+            $('#delete').hide()
         } else {
             x.style.display = "none";
             $("#off").hide()
@@ -223,26 +235,40 @@
         var x = document.getElementById("capture");
         if (x.style.display === "none") {
             x.style.display = "inline-block";
-            
+
         } else {
             x.style.display = "none";
 
         }
 
-
     }
 
-    function camera_off(){
+    //Apaga la cámara y oculta los botones
+    function camera_off() {
         Webcam.reset()
         $('#capture').hide()
         $('#off').hide()
         $('#open').show()
         $('#results').hide()
 
+    }
+
+    function delete_photo(){
+        $('#imgColp').remove();
+        open_camera()
+
 
     }
 
-    
+    //abrir la imagen en una nueva ventana
+	function newTabImage() {
+    var image = new Image();
+    image.src = $('#imgColp').attr('src');
+
+    var w = window.open("",'_blank');
+    w.document.write(image.outerHTML);
+    w.document.close(); 
+}
 </script>
 
 <?php $min = 'Consulta';
@@ -292,15 +318,15 @@ $minS = 'Paciente'; ?>
                                 <div class="form-group col-sm-4">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input name="fecha" type="text" readonly value="<?php echo date("d-m-Y"); ?>" class="form-control" placeholder="Fecha">
+                                        <input name="fecha" type="text" readonly value="<?php echo $consulta['fechaconsulta']; ?>" class="form-control" placeholder="Fecha">
                                     </div>
                                 </div>
 
                                 <div class="form-group col-sm-8">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                        <input id="nombrePaciente" name="nombrePaciente" type="text" class="form-control" placeholder="Nombre del paciente" onkeydown="return false" style="pointer-events: none;" required>
-                                        <input id="idPaciente" name="idPaciente" type="number" hidden>
+                                        <input id="nombrePaciente" name="nombrePaciente" type="text" class="form-control" placeholder="Nombre del paciente" value="<?php echo $paciente['nombres'] ?>" onkeydown="return false" style="pointer-events: none;" required>
+                                        <input id="idPaciente" name="idPaciente" type="number" value="<?php echo $paciente['idpaciente'] ?>" hidden>
                                     </div>
                                 </div>
                             </div>
@@ -319,44 +345,44 @@ $minS = 'Paciente'; ?>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Motivo:</i></span>
-                                                <textarea name="ante_Motivo" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="ante_Motivo" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['motivo'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Historia de la enfermedad:</i></span>
-                                                <textarea name="ante_Historia" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="ante_Historia" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['historiaenfermedad'] ?></textarea>
                                             </div>
                                         </div>
                                         <h4>Antecedentes generales</h4>
                                         <div class="form-group col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Médicos:</i></span>
-                                                <textarea name="ante_Medicos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="ante_Medicos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['age_medicos'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-5">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Quirúrgicos:</span>
-                                                <textarea name="ante_Quirurgicos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="ante_Quirurgicos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['age_quirurgicos'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Alérgicos:</i></span>
-                                                <textarea name="ante_Alergicos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="ante_Alergicos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['age_alergicos'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-5">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Traumáticos:</i></span>
-                                                <textarea name="ante_Traumaticos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="ante_Traumaticos" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['age_traumaticos'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Vicios y manías:</i></span>
-                                                <textarea name="viciosymanias" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"></textarea>
+                                                <textarea name="viciosymanias" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['age_viciosymanias'] ?></textarea>
                                             </div>
                                         </div>
 
@@ -369,7 +395,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Embarazos: </th>
                                                             <td>
                                                                 <div>
-                                                                    <input type="number" name="ag_Embarazos" value="0" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ag_Embarazos" value="<?php echo $consulta['agi_embarazos'] ?>" class="form-control" maxlength="2"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -377,7 +403,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Menarquía:</th>
                                                             <td>
                                                                 <div>
-                                                                    <input type="text" name="ag_Menarquia" class="form-control" maxlength="30"></input>
+                                                                    <input type="text" name="ag_Menarquia" class="form-control" maxlength="30" value="<?php echo $consulta['agi_menarquia'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -385,7 +411,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Ciclo:</th>
                                                             <td>
                                                                 <div>
-                                                                    <input type="text" name="ag_Ciclo" class="form-control" maxlength="50"></input>
+                                                                    <input type="text" name="ag_Ciclo" class="form-control" maxlength="50" value="<?php echo $consulta['agi_ciclo'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -393,7 +419,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Duración:</th>
                                                             <td>
                                                                 <div>
-                                                                    <input type="number" name="ag_Duracion" placeholder="cantidad días" class="form-control" maxlength="150"></input>
+                                                                    <input type="number" name="ag_Duracion" placeholder="cantidad días" class="form-control" maxlength="150" value="<?php echo $consulta['agi_duracion'] ?>"></input>
                                                                 </div>
 
                                                             </td>
@@ -404,11 +430,11 @@ $minS = 'Paciente'; ?>
                                                             <td>
                                                                 <div>
                                                                     <select name="ag_Dolor" class="form-control">
-                                                                        <?php foreach ($cantidadDolor as $cantidad) { ?>
-                                                                            <option value="<?php echo $cantidad['codigo']; ?>"> <?php echo $cantidad['nombre']; ?></option>
+                                                                        <?php foreach ($dolor as $dolor) { ?>
+                                                                            <option value="<?php echo $dolor['codigo']; ?>" <?php if ($dolor['nombre'] == 'Ninguno') echo 'selected' ?>>Ninguno</option>
                                                                         <?php } ?>
-                                                                    </select>
 
+                                                                    </select>
                                                                 </div>
 
                                                             </td>
@@ -419,8 +445,7 @@ $minS = 'Paciente'; ?>
                                                                 <div>
                                                                     <select name="ag_Ets" class="form-control">
                                                                         <?php foreach ($ets as $enfermedad) { ?>
-                                                                            <option value="<?php echo $enfermedad['codigo']; ?>"><?php echo $enfermedad['nombre']; ?></option>
-
+                                                                            <option value="<?php echo $enfermedad['codigo']; ?>" <?php if ($enfermedad['codigo'] == $consulta['agi_ets']) echo 'selected' ?>><?php echo $enfermedad['nombre']; ?></option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </div>
@@ -430,10 +455,18 @@ $minS = 'Paciente'; ?>
                                                             <th>¿Está embarazada?</th>
                                                             <td>
                                                                 <div>
-                                                                    <input type="checkbox" aria-label="Checkbox for following text input" name="chkEmbarazoSi"> Sí
-                                                                    <input type="checkbox" aria-label="Checkbox for following text input" name="chkEmbarazoNo"> No
-                                                                    <input type="number" placeholder="Cantidad semanas" name="ag_SemanasEmbarazo" value="0" class="form-control" maxlength="150"></input>
-                                                                    <label id="semanas">Semanas </label>
+                                                                    <?php if ($consulta['agi_embarazada'] == 1) { ?>
+                                                                        <input type="checkbox" aria-label="Checkbox for following text input" name="chkEmbarazoSi" <?php echo 'checked="checked"'; ?>> Sí
+                                                                        <input type="checkbox" aria-label="Checkbox for following text input" name="chkEmbarazoNo"> No
+                                                                        <input type="number" placeholder="Cantidad semanas" name="ag_SemanasEmbarazo" value="<?php echo $consulta['agi_semanasembarazo']; ?>" class="form-control" maxlength="2"></input>
+
+                                                                    <?php } else { ?>
+                                                                        <input type="checkbox" aria-label="Checkbox for following text input" name="chkEmbarazoSi"> Sí
+                                                                        <input type="checkbox" aria-label="Checkbox for following text input" name="chkEmbarazoNo" <?php echo 'checked="checked"'; ?>> No
+                                                                        <input type="number" placeholder="Cantidad semanas" name="ag_SemanasEmbarazo" value="<?php echo $consulta['agi_semanasembarazo']; ?>" class="form-control" maxlength="2"></input>
+
+
+                                                                    <?php  } ?>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -442,9 +475,8 @@ $minS = 'Paciente'; ?>
                                                             <td>
                                                                 <div>
                                                                     <select name="ag_Metodos" class="form-control">
-                                                                        <?php foreach ($metodosAnti as $metodos) { ?>
-                                                                            <option value="<?php echo $metodos['codigo'] ?>"><?php echo $metodos['nombre'] ?></option>
-
+                                                                        <?php foreach ($metodosAnticonceptivos as $metodos) { ?>
+                                                                            <option value="<?php echo $metodos['codigo'] ?>" <?php if ($consulta['agi_metodoanticonceptivo'] == $metodos['codigo']) echo 'selected' ?>><?php echo $metodos['nombre'] ?></option>
                                                                         <?php } ?>
 
                                                                     </select>
@@ -455,7 +487,7 @@ $minS = 'Paciente'; ?>
                                                             <th>F.U.R</th>
                                                             <td>
                                                                 <div>
-                                                                    <input name="ag_Fur" type="text" class="form-control" min="1970-01-01" onfocus="this.type='date'">
+                                                                    <input name="ag_Fur" type="text" class="form-control" min="1970-01-01" onfocus="this.type='date'" value="<?php echo $consulta['agi_fur'] ?>">
                                                                 </div>
 
                                                             </td>
@@ -476,7 +508,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Partos:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Partos" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_Partos" class="form-control" maxlength="2" value="<?php echo $consulta['aob_partos'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -484,7 +516,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Cesáreas:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Cesareas" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_Cesareas" class="form-control" maxlength="2" value="<?php echo $consulta['aob_cesareas'] ?>"></input>
                                                                 </div>
 
                                                             </td>
@@ -493,7 +525,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Abortos:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Abortos" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_Abortos" class="form-control" maxlength="2" value="<?php echo $consulta['aob_abortos'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -501,7 +533,7 @@ $minS = 'Paciente'; ?>
                                                             <th>HV:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Hv" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_Hv" class="form-control" maxlength="2" value="<?php echo $consulta['aob_hv'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -509,7 +541,7 @@ $minS = 'Paciente'; ?>
                                                             <th>HM:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Hm" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_Hm" class="form-control" maxlength="2" value="<?php echo $consulta['aob_hm'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -517,7 +549,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Obito Fetal:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_ObitoFetal" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_ObitoFetal" class="form-control" maxlength="2" value="<?php echo $consulta['aob_obitofetal'] ?>"></input>
                                                                 </div>
 
                                                             </td>
@@ -526,7 +558,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Último papanicolaou:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input name="ao_ultimoPapanico" type="text" class="form-control" min="1970-01-01" onfocus="this.type='date'">
+                                                                    <input name="ao_ultimoPapanico" type="text" class="form-control" min="1970-01-01" onfocus="this.type='date'" value="<?php echo $consulta['aob_ultimopapanicolaou'] ?>">
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -534,7 +566,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Cantidad papanicolaou:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_cantidadPapanico" class="form-control" maxlength="2"></input>
+                                                                    <input type="number" name="ao_cantidadPapanico" class="form-control" maxlength="2" value="<?php echo $consulta['aob_cantidadpapanicolaou'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -542,7 +574,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Parejas Sexuales:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Ps" class="form-control" maxlength="3"></input>
+                                                                    <input type="number" name="ao_Ps" class="form-control" maxlength="3" value="<?php echo $consulta['aob_parejassexuales'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -550,7 +582,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Inicio Vida Sexual:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="text" placeholder="Edad" name="ao_Ivs" class="form-control" maxlength="15"></input>
+                                                                    <input type="text" placeholder="Edad" name="ao_Ivs" class="form-control" maxlength="15" value="<?php echo $consulta['aob_iniciovidasexual'] ?>"></input>
                                                                 </div>
                                                             </td>
 
@@ -559,7 +591,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Parejas Sexuales de Pareja:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="number" value="0" name="ao_Psp" class="form-control" maxlength="3"></input>
+                                                                    <input type="number" name="ao_Psp" class="form-control" maxlength="3" value="<?php echo $consulta['aob_parejassexualespareja'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -579,7 +611,7 @@ $minS = 'Paciente'; ?>
                                                             <th>P/A:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="text" placeholder="0/0" name="ef_pa" class="form-control" maxlength="5"></input>
+                                                                    <input type="text" placeholder="0/0" name="ef_pa" class="form-control" maxlength="5" value="<?php echo $consulta['pa'] ?>"></input>
                                                                 </div>
 
                                                             </td>
@@ -588,7 +620,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Temperatura:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="text" placeholder="10°" name="ef_temperatura" class="form-control" maxlength="2"></input>
+                                                                    <input type="text" placeholder="10°" name="ef_temperatura" class="form-control" maxlength="2" value="<?php echo $consulta['temperatura'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -597,7 +629,7 @@ $minS = 'Paciente'; ?>
                                                             <td>
 
                                                                 <div class="input-group">
-                                                                    <input type="text" name="ef_pulso" class="form-control" maxlength="5"></input>
+                                                                    <input type="text" name="ef_pulso" class="form-control" maxlength="5" value="<?php echo $consulta['pulso'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -605,7 +637,7 @@ $minS = 'Paciente'; ?>
                                                             <th>SPO %:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="text" name="ef_spo" class="form-control" maxlength="5"></input>
+                                                                    <input type="text" name="ef_spo" class="form-control" maxlength="5" value="<?php echo $consulta['spo'] ?>"></input>
                                                                 </div>
 
                                                             </td>
@@ -615,13 +647,13 @@ $minS = 'Paciente'; ?>
                                                             <td>
                                                                 <div class="input-group">
                                                                     <label for="ef_Libras">Libras</label>
-                                                                    <input type="number" name="ef_libras" step="0.01" class="form-control" value="0" maxlength="3"></input>
+                                                                    <input type="number" name="ef_libras" step="0.01" class="form-control" maxlength="3" value="<?php echo $consulta['peso_libras'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="input-group">
                                                                     <label for="ef_Onzas">Onzas</label>
-                                                                    <input type="number" step="0.01" name="ef_onzas" class="form-control" value="0" maxlength="3"></input>
+                                                                    <input type="number" step="0.01" name="ef_onzas" class="form-control" maxlength="3" value="<?php echo $consulta['peso_onzas'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -630,13 +662,13 @@ $minS = 'Paciente'; ?>
                                                             <td>
                                                                 <div class="input-group">
                                                                     <label for="ef_Metros">Metros:</label>
-                                                                    <input type="number" name="ef_metros" class="form-control" step="0.01" value="0" maxlength="3"></input>
+                                                                    <input type="number" name="ef_metros" class="form-control" step="0.01" maxlength="3" value="<?php echo $consulta['estatura_metros'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="input-group">
                                                                     <label for="ef_Centimetros">Centímetros:</label>
-                                                                    <input type="number" name="ef_centimetros" class="form-control" step="0.01" value="0" maxlength="3"></input>
+                                                                    <input type="number" name="ef_centimetros" class="form-control" step="0.01" maxlength="3" value="<?php echo $consulta['estatura_centimetros'] ?>"></input>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -646,7 +678,7 @@ $minS = 'Paciente'; ?>
                                                                 <div>
                                                                     <select name="ef_peso" class="form-control">
                                                                         <?php foreach ($tiposPeso as $peso) { ?>
-                                                                            <option value="<?php echo $peso['codigo'] ?>"><?php echo $peso['nombre'] ?> </option>
+                                                                            <option value="<?php echo $peso['codigo'] ?>" <?php if ($consulta['peso_calidad'] == $peso['codigo']) echo 'selected' ?>><?php echo $peso['nombre'] ?> </option>
                                                                         <?php } ?>
                                                                     </select>
                                                                 </div>
@@ -657,7 +689,7 @@ $minS = 'Paciente'; ?>
                                                             <th>F.R:</th>
                                                             <td>
                                                                 <div class="input-group">
-                                                                    <input type="text" name="ef_fr" class="form-control" maxlength="50"></input>
+                                                                    <input type="text" name="ef_fr" class="form-control" maxlength="50" value="<?php echo $consulta['fr'] ?>"></input>
                                                                 </div>
 
                                                             </td>
@@ -675,7 +707,7 @@ $minS = 'Paciente'; ?>
                                                             <th>A) Piel y mucosas:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_pielYMucosas" class="form-control" maxlength="150" rows="3"></textarea>
+                                                                    <textarea name="ef_pielYMucosas" class="form-control" maxlength="150" rows="3" style="overflow:auto;resize:none"><?php echo $consulta['pielymucosas'] ?></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -683,7 +715,7 @@ $minS = 'Paciente'; ?>
                                                             <th>B) Cabeza y cuello:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_cabezayCuello" class="form-control" maxlength="150" rows="3"></textarea>
+                                                                    <textarea name="ef_cabezayCuello" class="form-control" maxlength="150" rows="3" style="overflow:auto;resize:none"><?php echo $consulta['cabezaycuello'] ?></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -691,7 +723,7 @@ $minS = 'Paciente'; ?>
                                                             <th>C) Tórax:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_torax" class="form-control" maxlength="150" rows="3"></textarea>
+                                                                    <textarea name="ef_torax" class="form-control" maxlength="150" rows="3" style="overflow:auto;resize:none"><?php echo $consulta['torax'] ?></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -699,15 +731,15 @@ $minS = 'Paciente'; ?>
                                                             <th>D) Abdomen:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_abdomen" class="form-control" maxlength="150" rows="3"></textarea>
+                                                                    <textarea name="ef_abdomen" class="form-control" maxlength="150" rows="3" style="overflow:auto;resize:none"><?php echo $consulta['abdomen'] ?></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <th>E)Cadera y columna:</th>
+                                                            <th>E) Cadera y columna:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_caderayColumna" class="form-control" maxlength="150" rows="3"></textarea>
+                                                                    <textarea name="ef_caderayColumna" class="form-control" maxlength="150" rows="3" style="overflow:auto;resize:none"><?php echo $consulta['caderaycolumna'] ?></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -715,7 +747,7 @@ $minS = 'Paciente'; ?>
                                                             <th>F) Ginecológico:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_ginecologico" class="form-control" maxlength="150" rows="3"></textarea>
+                                                                    <textarea name="ef_ginecologico" class="form-control" maxlength="150" rows="3" style="overflow:auto;resize:none"><?php echo $consulta['ginecologico'] ?></textarea>
 
                                                                 </div>
 
@@ -726,7 +758,7 @@ $minS = 'Paciente'; ?>
                                                             <th>Impresión clínica:</th>
                                                             <td>
                                                                 <div>
-                                                                    <textarea name="ef_impresionClinica" class="form-control" maxlength="150" rows="4"></textarea>
+                                                                    <textarea name="ef_impresionClinica" class="form-control" maxlength="150" rows="4" style="overflow:auto;resize:none"><?php echo $consulta['impresionclinica'] ?></textarea>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -741,7 +773,7 @@ $minS = 'Paciente'; ?>
                                         <div class="form-group col-sm-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Referido por:</i></span>
-                                                <input type="text" id="referidoPor" name="referidoPor" class="form-control" maxlength="35"></input>
+                                                <input type="text" id="referidoPor" name="referidoPor" class="form-control" maxlength="35" value="<?php echo $consulta['referidopor'] ?>"></input>
                                             </div>
                                         </div>
                                         <h4>DxPapanicolaou</h4>
@@ -749,14 +781,14 @@ $minS = 'Paciente'; ?>
                                             <div class="form-check">
 
                                                 <label class="form-check-label" for="mucosa">
-                                                    <input class="form-check-input" type="checkbox" id="mucosa" name="mucosa">
+                                                    <input class="form-check-input" type="checkbox" id="mucosa" name="mucosa" <?php echo $consulta['pap_mucosaoriginaria'] == 1 ? 'checked="checked"' : '' ?>>
                                                     1. Mucosa originaria
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="ectopia" name="ectopia">
+                                                <input class="form-check-input" type="checkbox" id="ectopia" name="ectopia" <?php echo $consulta['pap_ectopia'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="ectopia">
                                                     2. Ectopía
                                                 </label>
@@ -764,7 +796,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="zonaTransf" name="zonaTransf">
+                                                <input class="form-check-input" type="checkbox" id="zonaTransf" name="zonaTransf" <?php echo $consulta['pap_zonatransformacion'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="zonaTransf">
                                                     3. Zona de transformación
                                                 </label>
@@ -772,7 +804,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="zonaTransfAt" name="zonaTransfAt">
+                                                <input class="form-check-input" type="checkbox" id="zonaTransfAt" name="zonaTransfAt" <?php echo $consulta['pap_zonatransformacionatipica'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="zonaTransfAt">
                                                     4. Zona de transformación atípica
                                                 </label>
@@ -780,7 +812,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="epitAcetPos" name="epitAcetPos">
+                                                <input class="form-check-input" type="checkbox" id="epitAcetPos" name="epitAcetPos" <?php echo $consulta['pap_epitelioaceticopositivo'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="epitAcetPos">
                                                     5. Epitelio acético positivo
                                                 </label>
@@ -788,7 +820,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="leucoplasia" name="leucoplasia">
+                                                <input class="form-check-input" type="checkbox" id="leucoplasia" name="leucoplasia" <?php echo $consulta['pap_leucoplasia'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="leucoplasia">
                                                     6. Leucoplasia
                                                 </label>
@@ -796,7 +828,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="puntuacion" name="puntuacion">
+                                                <input class="form-check-input" type="checkbox" id="puntuacion" name="puntuacion" <?php echo $consulta['pap_puntuacion'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="puntuacion">
                                                     7. Puntuación
                                                 </label>
@@ -804,7 +836,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="mosaico" name="mosaico">
+                                                <input class="form-check-input" type="checkbox" id="mosaico" name="mosaico" <?php echo $consulta['pap_mosaico'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="mosaico">
                                                     8. Mosaico
                                                 </label>
@@ -812,7 +844,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="mosaicoPunt" name="mosaicoPunt">
+                                                <input class="form-check-input" type="checkbox" id="mosaicoPunt" name="mosaicoPunt" <?php echo $consulta['pap_mosaicopuntuacion'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="mosaicoPunt">
                                                     9. Mosaico - Puntuación
                                                 </label>
@@ -820,7 +852,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="atipiasVasc" name="atipiasVasc">
+                                                <input class="form-check-input" type="checkbox" id="atipiasVasc" name="atipiasVasc" <?php echo $consulta['pap_atipiasvasculares'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="atipiasVasc">
                                                     10. Atipias Vasculares
                                                 </label>
@@ -828,7 +860,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="carcinoma" name="carcinoma">
+                                                <input class="form-check-input" type="checkbox" id="carcinoma" name="carcinoma" <?php echo $consulta['pap_carcinoma'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="carcinoma">
                                                     11. Carcinoma
                                                 </label>
@@ -836,15 +868,15 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="condiloma" name="condiloma">
+                                                <input class="form-check-input" type="checkbox" id="condiloma" name="condiloma" <?php echo $consulta['pap_condiloma'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="condiloma">
-                                                    12. Condiloma
+                                                    12. Condilomaloca
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="cervitis" name="cervitis">
+                                                <input class="form-check-input" type="checkbox" id="cervitis" name="cervitis" <?php echo $consulta['pap_cervitis'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="cervitis">
                                                     13. Cervicitis
                                                 </label>
@@ -852,7 +884,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="atrofias" name="atrofias">
+                                                <input class="form-check-input" type="checkbox" id="atrofias" name="atrofias" <?php echo $consulta['pap_atrofias'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="atrofias">
                                                     14. Atrofias
                                                 </label>
@@ -860,7 +892,7 @@ $minS = 'Paciente'; ?>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="otros" name="otros">
+                                                <input class="form-check-input" type="checkbox" id="otros" name="otros" <?php echo $consulta['pap_otros'] == 1 ? 'checked="checked"' : '' ?>>
                                                 <label class="form-check-label" for="otros">
                                                     15. Otros
                                                 </label>
@@ -869,82 +901,132 @@ $minS = 'Paciente'; ?>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Impresión colposcopica:</i></span>
-                                                <textarea name="impresionCol" class="form-control" maxlength="150" rows="2"></textarea>
+                                                <textarea name="impresionCol" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none">  <?php echo $consulta['pap_impresioncolposcopica'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Unión Escamo Columnar:</i></span>
-                                                <textarea name="unionEscaCol" class="form-control" maxlength="150" rows="2"></textarea>
+                                                <textarea name="unionEscaCol" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['pap_unionescamocolumnar'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">ResHB:</i></span>
-                                                <textarea name="resHB" class="form-control" maxlength="150" rows="1"></textarea>
+                                                <textarea name="resHB" class="form-control" maxlength="150" rows="1" style="overflow:auto;resize:none"><?php echo $consulta['pap_reshb'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Result. Hist. Biopsia:</i></span>
-                                                <textarea name="resulHistBio" class="form-control" maxlength="150" rows="1"></textarea>
+                                                <textarea name="resulHistBio" class="form-control" maxlength="150" rows="1" style="overflow:auto;resize:none"><?php echo $consulta['pap_resulthistbiopsia'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Correlación:</i></span>
-                                                <textarea id="correlacion" name="correlacion" class="form-control" maxlength="150" rows="1"></textarea>
+                                                <textarea id="correlacion" name="correlacion" class="form-control" maxlength="150" rows="1" style="overflow:auto;resize:none"><?php echo $consulta['pap_correlacion'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Sugerencia:</i></span>
-                                                <textarea name="sugerencia" class="form-control" maxlength="150" rows="1"></textarea>
+                                                <textarea name="sugerencia" class="form-control" maxlength="150" rows="1" style="overflow:auto;resize:none"><?php echo $consulta['pap_sugerencia'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Tratamiento adoptado:</i></span>
-                                                <textarea name="tratamientoAdopt" class="form-control" maxlength="150" rows="2"></textarea>
+                                                <textarea name="tratamientoAdopt" class="form-control" maxlength="150" rows="2" style="overflow:auto;resize:none"><?php echo $consulta['pap_tratamientoadoptado'] ?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-7">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Referido a:</span>
-                                                <input type="text" name="referidoA" class="form-control" maxlength="45"></input>
+                                                <input type="text" name="referidoA" class="form-control" maxlength="45" style="overflow:auto;resize:none" value="<?php echo $consulta['pap_referidoa'] ?>"></input>
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <div class="input-group">
                                                 <span class="input-group-addon">Fecha Referencia:</span>
-                                                <input name="fechaReferencia" type="text" class="form-control" min="1970-01-01" onfocus="this.type='date'">
+                                                <input name="fechaReferencia" type="text" class="form-control" min="1970-01-01" onfocus="this.type='date'" value="<?php echo $consulta['pap_fechareferencia'] ?>">
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-11">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-camera"> Foto:</i>
-                                                <div class="foto-div" id="results">
-                                                    <div id="my_camera"></div>
-                                            </div>
-                                                    <input type="button" id="capture" value="Tomar foto" onClick="take_snapshot() " >
-                                                    <input type="button" id="off" value="Apagar" onClick="camera_off()">
-                                                    <input name="imagen" type="button" id="open" value="Encender cámara" onClick="openCamera()">
-                                                    <input type="hidden" name="imageColposcopia" class="image-tag">
-                                            </div>
-                                            
-                                        </div>
+                                                    <div class="foto-div">
 
-                                    </div>
-                                    <div class="tab-pane fade" id="ultrasonido">
-                                        </br>
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div id="newRow"></div>
-                                                <button id="addRow" type="button" class="btn btn-info">Agregar fila</button>
+                                                        <?php
+                                                        //obtiene la imagen del servidor con el nombre guardado en la base de datos,
+                                                        //si no existe coloca una generica
+                                                        $imagesDir = "/xampp/uploads/colposcopia/";
+                                                        $content = @file_get_contents($imagesDir . $consulta['pap_img'] . '.png');
+                                                        $content = base64_encode($content);
+
+                                                        base64_decode($content);
+
+                                                        ?>
+                                                        <?php if ($content != '') { ?>
+
+                                                            <img id = "imgColp" class="img-colposcopia" src="data:image/png;base64, <?php echo $content ?> " onclick="newTabImage()"  />
+
+                                                        <?php } else { ?>
+                                                            <img class="img-colposcopia" src="data:image/png;base64, <?php echo $content ?>" style="width:300; height:200;" />
+
+                                                        <?php } ?>
+
+                                                        <div class="foto-div" id="results">
+                                                            <div id="my_camera"></div>
+                                                        </div>
+                                                        <input type="button" id="capture" value="Tomar foto" onClick="take_snapshot() ">
+                                                        <input type="button" id="off" value="Apagar" onClick="camera_off()">
+                                                        <input name="imagen" type="button" id="open" value="Encender cámara" onClick="open_camera()">
+                                                        <input type="hidden" name="imageColposcopia" class="image-tag">
+                                                        <input type="button" id="delete"name="eliminarFoto" value="Cambiar foto" onClick="delete_photo()">
+                                                    </div>
+                                                </div> 
+
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane fade" id="ultrasonido">
+                                            </br>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <?php foreach ($ultrasonidosConsulta as $ultrasonidos) { ?>
+                                                        <div class="row">
+                                                            <div id="inputFormRow">
+                                                                <div class="form-group col-sm-4">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon">Tipo de ultrasonido </span>
+                                                                        <select name="tipoUltrasonido[]" class="form-control m-input" required>
+
+                                                                            <option selected disabled>Seleccionar</option>
+                                                                            <?php foreach ($tiposUltrasonido as $tipos) { ?>
+                                                                                <option value="<?php echo $tipos['codigo'] ?>" <?php if ($tipos['codigo'] == $ultrasonidos['codigo']) echo 'selected' ?>><?php echo $tipos['nombre'] ?></option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-sm-3">
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon">Valor: Q</span>
+                                                                        <input type="number" name="valorUltrasonido[]" min="0" step="0.01" value="<?php echo $ultrasonidos['valor'] ?>" class="form-control" required></input>
+                                                                    </div>
+                                                                </div>
+                                                                <button id="removeRow" type="button" class="btn btn-danger">Eliminar fila</button>
+                                                            </div>
+                                                        </div>
+
+
+                                                    <?php } ?>
+                                                    <div id="newRow"></div>
+                                                    <button id="addRow" type="button" class="btn btn-info">Agregar fila</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--<div class="tab-pane fade" id="diagnostico">
+                                        <!--<div class="tab-pane fade" id="diagnostico">
                                         <br>
                                         <div class="form-group col-md-11">
                                             <div class="input-group">
@@ -977,15 +1059,15 @@ $minS = 'Paciente'; ?>
                                             </div>
                                         </div>
                                     </div>-->
-                                </div>
+                                    </div>
 
-                            </div>
-                            <div class="modal-footer clearfix">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> GUARDAR</button>
-                                    <button type="button" class="btn btn-danger" onclick="history.back()"><i class="fa fa-times"></i> Cerrar</button>
                                 </div>
-                            </div>
+                                <div class="modal-footer clearfix">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> GUARDAR</button>
+                                        <button type="button" class="btn btn-danger" onclick="history.back()"><i class="fa fa-times"></i> Cerrar</button>
+                                    </div>
+                                </div>
 
                     </form>
                 </div>

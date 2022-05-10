@@ -47,12 +47,12 @@ class Patient extends Configuracion {
     }
 
     public function updatePaciente($idItem, $nombres,$apellidos,$direccion,$direccionTrabajo,$lugarTrabajo,$ocupacion,$telefono,
-    $fechaNacimiento,$dpi,$genero,$estadoCivil,$escolaridad,$tipoSangre,$conyugue,$responsable,$padre,$madre,$hermanos,$observaciones,
-    $fechaModificacion,$usuarioModificacion){
+    $fechaNacimiento,$dpi,$genero,$estadoCivil,$escolaridad,$tipoSangre,$conyugue,$responsable,$religion,$padre,$madre,$hermanos,$observaciones,
+    $fechaModificacion,$usuarioModificacion,$imgPaciente){
         $pdo = parent::conexion();
         $stmt = $pdo->prepare("call update_paciente(:idPaciente,:nombres,:apellidos,:direccion,:direccion_trabajo,:lugar_trabajo,
-    :ocupacion,:telefono,:fecha_nacimiento,:dpi,:genero,:estado_civil,:escolaridad,:tipo_sangre,:conyugue,:responsable,:padre,:madre,
-    :hermanos,:observaciones,:fecha_modificacion,:usuario_modificacion);");
+    :ocupacion,:telefono,:fecha_nacimiento,:dpi,:genero,:estado_civil,:escolaridad,:tipo_sangre,:conyugue,:religion,:padre,:madre,
+    :hermanos,:observaciones,:responsable,:fecha_modificacion,:usuario_modificacion,:foto);");
     $stmt->bindParam(':idPaciente', $idItem);
     $stmt->bindParam(':nombres', $nombres);
     $stmt->bindParam(':apellidos', $apellidos);
@@ -69,6 +69,7 @@ class Patient extends Configuracion {
     $stmt->bindParam(':tipo_sangre', $tipoSangre);
     $stmt->bindParam(':conyugue', $conyugue);
     $stmt->bindParam(':responsable', $responsable);
+    $stmt->bindParam(':religion', $religion);
     $stmt->bindParam(':padre', $padre);
     $stmt->bindParam(':madre', $madre);
     $stmt->bindParam(':hermanos', $hermanos);
@@ -76,12 +77,13 @@ class Patient extends Configuracion {
     $stmt->bindParam(':responsable', $responsable);
     $stmt->bindParam(':fecha_modificacion', $fechaModificacion);
     $stmt->bindParam(':usuario_modificacion', $usuarioModificacion);
-
+    $stmt->bindParam(':foto',$imgPaciente);
 	$update = $stmt->execute();
     if($update){
         return $update;
     }else{
-        die($stmt->errorInfo());
+        print_r($stmt->errorInfo());
+        die();
     }
     
     }
@@ -90,7 +92,7 @@ class Patient extends Configuracion {
     public function getPacientePorId($idPaciente){
         $pdo = parent::conexion();
         $paciente = array();
-        $stmt = $pdo->prepare("call mostrar_info_paciente(:idpaciente)");
+        $stmt = $pdo->prepare("select * from mostrar_info_paciente where idpaciente= :idpaciente;");
         $stmt->bindParam(":idpaciente",$idPaciente);
         //$get = $stmt->execute() sirve para saber si se ejecutó el statement.
         $stmt->execute();
@@ -106,6 +108,28 @@ class Patient extends Configuracion {
 
     }
 
+    //funcion para obtener el nombre del paciente
+    public function getNombrePacientePorId($idPaciente){
+        $pdo = parent::conexion();
+        $paciente = array();
+        $stmt = $pdo->prepare("SELECT idpaciente, concat(nombres,' ',apellidos) nombres FROM mostrar_info_paciente  WHERE idpaciente= :idpaciente;");
+        $stmt->bindParam(":idpaciente",$idPaciente);
+        //$get = $stmt->execute() sirve para saber si se ejecutó el statement.
+        $stmt->execute();
+        while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $paciente[] =$resultado;
+        }
+        if(count($paciente)){
+            return $paciente[0];
+        }
+        else{
+            return $paciente;
+        }
+
+    }
+
+    
+
     public function getEstadoCivil($idEstadoCivil) {
 		$pdo = parent::conexion();
 		$estadoCivil = array();
@@ -118,17 +142,16 @@ class Patient extends Configuracion {
 		return $estadoCivil[0];
 	}
 
-    public function getGenero($idGenero) {
+    public function getGenero() {
 		$pdo = parent::conexion();
 		$genero = array();
-		$stmt = $pdo->prepare("SELECT codigo, nombre FROM generico  WHERE tipo = 'SEX' AND codigo=:idGenero;");
-		$stmt->bindParam(':idGenero', $idGenero);
+		$stmt = $pdo->prepare("SELECT codigo, nombre FROM generico  WHERE tipo = 'SEX';");
        $get= $stmt->execute();
        if($get){
         while( $resultado = $stmt->fetch(PDO::FETCH_ASSOC) ){
 			$genero[] = $resultado;
 		}
-		return $genero[0];
+		return $genero;
 
        }else{
            die($stmt->errorInfo());

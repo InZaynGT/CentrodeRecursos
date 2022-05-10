@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title><?php echo $tituloPagina; ?></title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=5" name="viewport" />
-	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>clinic.ico" type="image/x-icon">
 	<link href="<?php echo BASE_DIR ?>css/bootstrap.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/font-awesome.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/theme.css" rel="stylesheet" type="text/css" />
@@ -69,6 +69,7 @@
 			});
 		});
 	</script>
+	<script src="<?php echo BASE_DIR; ?>js/app.js" type="text/javascript"></script>
 
 </head>
 
@@ -128,8 +129,8 @@
 
 					<li>
 						<a href="<?php echo BASE_DIR; ?>citas">
-							<i class="fa fa-calendar-check-o"></i> <span>Citas</span>
-
+							<i class="fa fa-calendar-check-o"></i> 
+							<span>Citas</span>
 						</a>
 					</li>
 

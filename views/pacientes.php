@@ -1,6 +1,8 @@
-<script src="<?php echo BASE_DIR; ?>js/jquery-ui.js"></script>
 <link rel="stylesheet" href="<?php echo BASE_DIR; ?>css/jquery-ui.css">
+<script src="<?php echo BASE_DIR; ?>js/jquery-ui.js"></script>
 <script src="<?php echo BASE_DIR; ?>js/webcam.js"></script>
+
+
 
 <script type="text/javascript">
     $(function() {
@@ -25,8 +27,10 @@
         Webcam.set({
             width: 200,
             height: 150,
+            dest_width: 400,
+            dest_height : 300,
             image_format: 'jpeg',
-            jpeg_quality: 90
+            jpeg_quality: 100
         });
 
         Webcam.attach('#my_camera')
@@ -311,7 +315,7 @@ $minS = 'Paciente'; ?>
                                     "pageLength": 50,
                                     "fnCreatedRow": function(nRow,aData,iDataIndex){
 
-                                        $('td:eq(5)', nRow).html('<a title="Editar" href="<?php echo BASE_DIR; ?>editar-pacientes/'+aData[0]+'-'+aData[1]+'"><i class="fa fa-edit"></i></a>');
+                                        $('td:eq(6)', nRow).html('<a title="Editar" href="<?php echo BASE_DIR; ?>editar-pacientes/'+aData[0]+'-'+aData[1]+'"><i class="fa fa-edit"></i></a>');
 
                                     },
                                     dom: 'Blfrtip',
@@ -343,7 +347,8 @@ $minS = 'Paciente'; ?>
                             <thead>
                                 <tr>
                                 <th>Codigo</th>
-                                    <th>Nombres y Apellidos</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Fecha Ingreso</th>
@@ -357,7 +362,8 @@ $minS = 'Paciente'; ?>
                             <tfoot>
                                 <tr>
                                 <th>Codigo</th>
-                                    <th>Nombres y Apellidos</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Fecha Ingreso</th>

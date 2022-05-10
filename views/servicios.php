@@ -123,6 +123,7 @@ $(function(){
 									<td>Q. <?php echo number_format($row['precio'], 2,'.',',') ; ?></td>
 									<td class="acciones">
 										<a title="Editar" href="<?php echo BASE_DIR; ?>editar-servicio/<?php echo slug($row['idservicio']); ?>-<?php echo slug($row['nombre']); ?>"><i class="fa fa-edit"></i></a>
+										<!--<a title="Editar" href="<?php echo BASE_DIR; ?>eliminar-servicio/<?php echo slug($row['idservicio']); ?>-<?php echo slug($row['nombre']); ?>"><i class="fa fa-times" style="color:red"></i></a>-->
 									</td>
 								</tr>
 							<?php } ?>
