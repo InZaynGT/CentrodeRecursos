@@ -2,7 +2,7 @@
 <html>
 <head>	
 	<meta charset="UTF-8">
-	<title>Administraci&oacute;n :: Taller</title>
+	<title>Centro de Recursos</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
 	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>favicon.ico" type="image/x-icon" >
 	<link href="<?php echo BASE_DIR ?>css/font-awesome.css" rel="stylesheet" type="text/css" />

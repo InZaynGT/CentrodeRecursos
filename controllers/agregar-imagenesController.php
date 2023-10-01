@@ -1,16 +1,17 @@
 <?php
 
-if ($_POST) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['idUltrasonido']) && isset($_POST['imageUltrasonido'])) {
 
+        $servicio = explode("-", $_POST['idUltrasonido'], 2);
+
         $img = $_POST['imageUltrasonido'];
-        $idUltrasonido = $_POST['idUltrasonido'];
+        $idUltrasonido = explode("-", $_POST['idUltrasonido']);
 
         if (empty($img)) {
             $filename[0] = "";
         } else {
             //subir la foto al directorio
-            $folderPath = "/xampp/uploads/ultrasonidos/";
 
             $image_parts = explode(";base64", $img);
             $image_type_aux = explode("image/", $image_parts[0]);
@@ -19,14 +20,57 @@ if ($_POST) {
             $image_base64 = base64_decode($image_parts[1]);
             $filename = uniqid("", false) . '.png';
 
-            $file = $folderPath . $filename;
-            file_put_contents($file, $image_base64);
-            $filename = explode('.', $filename);
+            if ($servicio[1] ==  1) {
+                $folderPath = "/xampp/uploads/ultrasonidos/";
 
-            require_once 'models/consultaModel.php';
-            $cons = new Consulta();
-            $status = $cons->updateUltrasonidoFoto($idUltrasonido, $filename[0]);
-            unset($cons);
+                $file = $folderPath . $filename;
+                file_put_contents($file, $image_base64);
+                $filename = explode('.', $filename);
+
+                require_once 'models/ultrasonidoModel.php';
+                $ult = new Ultrasonido();
+                $imgUlt = $ult->getImgUltrasonidoConsulta($idUltrasonido[0], $idItem);
+                unset($ult);
+
+                if (!empty($imgUlt)) {
+                    $location = $folderPath . $imgUlt.'.png';
+
+                    if (file_exists($location)) {
+                        unlink($location);
+                    }
+                }
+
+                
+                require_once 'models/consultaModel.php';
+                $cons = new Consulta();
+                $status = $cons->updateUltrasonidoFoto($idItem, $idUltrasonido[0], $filename[0]);
+                unset($cons);
+
+            } else {
+                $folderPath = "/xampp/uploads/laboratorios/";
+
+                $file = $folderPath . $filename;
+                file_put_contents($file, $image_base64);
+                $filename = explode('.', $filename);
+
+                require_once 'models/laboratorioModel.php';
+                $lab = new Laboratorio();
+                $imgLab = $lab->getImgLaboratorioConsulta($idUltrasonido[0], $idItem);
+                unset($lab);
+
+                if (!empty($imgLab)) {
+                    $location = $folderPath . $imgLab.'.png';
+
+                    if (file_exists($location)) {
+                        unlink($location);
+                    }
+                }
+
+                require_once 'models/consultaModel.php';
+                $cons = new Consulta();
+                $status = $cons->updateLaboratorioFoto($idItem, $idUltrasonido[0], $filename[0]);
+                unset($cons);
+            }
 
             if ($status) {
                 echo '<div class="alert alert-success alert-dismissable">

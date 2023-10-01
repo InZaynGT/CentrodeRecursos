@@ -5,10 +5,12 @@ abstract class Configuracion {
 
     protected function conexion(){
 		$timezone = date_default_timezone_get();
-  // $dbh = new PDO("sqlsrv:Server=localhost,1433;Database=mydb", $user , $pass);
-  //  	$this->pdo = new PDO("sqlsrv:Server=localhost;Database=mydb", DB_USER, DB_PASSWD);
-		$this->pdo = new PDO('mysql:host=localhost;port=3307;dbname=clinica;charset=utf8','root','root');
-		$this->pdo->exec("SET time_zone = '{$timezone}'");
+		$this->pdo = new PDO('mysql:host='.DB_SERVER.';port=3307;dbname='.DB_NAME.';charset=utf8',DB_USER,DB_PASSWD);
+		$this->pdo->exec("SET time_zone = '-06:00'");
+		//Activar para hacer las pruebas de errores mientra se programa
+		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		//$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+		
 		return $this->pdo;
 	}
 }

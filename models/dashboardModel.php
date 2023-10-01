@@ -21,6 +21,30 @@ class DASHBOARD extends Configuracion {
 
 	}
 
+    //obtiene la cantidad de pacientes ingresados en el sistema para mostrar en el dashboard
+    public function getConsultasPorMes(){
+            $insumos = array();
+            $pdo = parent::conexion();
+            $sql = "SELECT 
+            DATE_FORMAT(STR_TO_DATE(CONCAT(MONTHNAME(fechaconsulta), ' ', YEAR(fechaconsulta)), '%M %Y'), '%M %Y') AS mes,
+            COUNT(*) AS cantidad
+        FROM 
+            consulta
+        WHERE 
+            fechaconsulta >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+        GROUP BY 
+            mes
+        ORDER BY 
+            STR_TO_DATE(mes, '%M %Y')";
+            $query = $pdo->query($sql);
+            while( $resultado = $query->fetch(PDO::FETCH_ASSOC) ){
+              $insumos[] = $resultado;
+            }
+            return $insumos;
+	}
+
+    
+
     //obtiene la cantidad de consultas ingresadas en el sistema para mostrar en el dashboard
     public function  getConsultasCount(){
         $pdo =  parent::conexion();

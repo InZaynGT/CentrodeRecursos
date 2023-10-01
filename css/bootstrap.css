@@ -1648,6 +1648,15 @@ th {
   border-top: 1px solid #dddddd;
 }
 
+.my-custom-scrollbar{
+  position:relative;
+  height: 100px;
+  overflow: auto;
+}
+.table-wrapper-scroll-y{
+  display:block;
+}
+
 .table > thead > tr > th {
   vertical-align: middle;
   border-bottom: 2px solid #dddddd;

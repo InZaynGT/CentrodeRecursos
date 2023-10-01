@@ -1,16 +1,14 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+<script src="<?php echo BASE_DIR; ?>js/Chart.js"></script>
 <aside class="right-side">
 
     <section class="content-header">
         <h1 align="center">
-            ESCRITORIO
+            I N I C I O
         </h1>
-
     </section>
 
     <section class="content">
         <div class="row">
-
             <div class="col lg-3 col-xs-4">
                 <div class="small-box bg-aqua">
                     <div class="inner">
@@ -69,7 +67,7 @@
             </div>
 
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
@@ -77,54 +75,78 @@
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
                                 <p class="text-center">
-                                    <strong>Sales 1 Jan, 2014 - 30 Jul,2014</strong>
+                                    <strong>Consultas Creadas en los últimos 12 Meses</strong>
                                 </p>
                                 <div class="chart">
                                     <canvas id="salesChart" style="height: 180px; width: 816px;" height="255" width="800"></canvas>
-                                        <script>
-                                            var ctx = document.getElementById("salesChart").getContext('2d');
-                                            var myChart = new Chart(ctx, {
-                                                type: 'bar',
-                                                data: {
-                                                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                                                    datasets: [{
-                                                        label: '# of Votes',
-                                                        data: [12, 19, 3, 5, 2, 3],
-                                                        backgroundColor: [
-                                                            'rgba(255, 99, 132, 0.2)',
-                                                            'rgba(54, 162, 235, 0.2)',
-                                                            'rgba(255, 206, 86, 0.2)',
-                                                            'rgba(75, 192, 192, 0.2)',
-                                                            'rgba(153, 102, 255, 0.2)',
-                                                            'rgba(255, 159, 64, 0.2)'
-                                                        ],
-                                                        borderColor: [
-                                                            'rgba(255,99,132,1)',
-                                                            'rgba(54, 162, 235, 1)',
-                                                            'rgba(255, 206, 86, 1)',
-                                                            'rgba(75, 192, 192, 1)',
-                                                            'rgba(153, 102, 255, 1)',
-                                                            'rgba(255, 159, 64, 1)'
-                                                        ],
-                                                        borderWidth: 1
+                                    <?php 
+                                    $listaCantidad = array_map(function($totalConsultasM) {
+                                        return $totalConsultasM['cantidad'];
+                                      }, $totalConsultasM);
+                                    $listaMes = array_map(function($totalConsultasM) {
+                                        return $totalConsultasM['mes'];
+                                      }, $totalConsultasM);
+
+                                    //HACER ARRAY DE MESES
+                                    $arrayValoresMes = array_values($listaMes);
+                                    $jsonMes = json_encode($arrayValoresMes);
+                                    $jsonFormateadoMes = str_replace(array('(', ')', '=>'), array('[', ']', ','), $jsonMes);
+                                    
+                                    //HACER ARRAY DE ENTEROS
+                                    $arrayValores = array_values($listaCantidad);
+                                    $arrayEnteros = array_map('intval', $arrayValores);
+                                    $jsonFormateado = json_encode($arrayEnteros);
+                                    ?>
+                                    <script>
+                                        var ctx = document.getElementById("salesChart").getContext('2d');
+                                        var myChart = new Chart(ctx, {
+                                            type: 'bar',
+                                            data: {
+                                                labels: <?php echo $jsonFormateadoMes ?> ,
+                                                datasets: [{
+                                                    label: "Datos Proporcionados",
+                                                    data: <?php echo $jsonFormateado ?>,
+                                                    // data: $totalConsultas
+                                                    backgroundColor: [
+                                                        'rgba(255, 99, 132, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(255, 206, 86, 0.2)',
+                                                        'rgba(75, 192, 192, 0.2)',
+                                                        'rgba(153, 102, 255, 0.2)',
+                                                        'rgba(255, 159, 64, 0.2)',
+                                                        'rgba(255, 99, 132, 0.2)',
+                                                        'rgba(54, 162, 235, 0.2)',
+                                                        'rgba(255, 206, 86, 0.2)',
+                                                        'rgba(75, 192, 192, 0.2)'
+                                                    ],
+                                                    borderColor: [
+                                                        'rgba(255,99,132,1)',
+                                                        'rgba(54, 162, 235, 1)',
+                                                        'rgba(255, 206, 86, 1)',
+                                                        'rgba(75, 192, 192, 1)',
+                                                        'rgba(153, 102, 255, 1)',
+                                                        'rgba(255, 159, 64, 1)'
+                                                    ],
+                                                    borderWidth: 1
+                                                }]
+                                            },
+                                            options: {
+                                                scales: {
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true
+                                                        }
                                                     }]
-                                                },
-                                                options: {
-                                                    scales: {
-                                                        yAxes: [{
-                                                            ticks: {
-                                                                beginAtZero: true
-                                                            }
-                                                        }]
-                                                    }
                                                 }
-                                            });
-                                        </script>
+                                            }
+                                        });
+                                    </script>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <p class="text-center">
                                     <strong>Metas a completar</strong>
                                 </p>
@@ -171,11 +193,11 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="box-footer">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-sm-3 col-xs-6">
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-green">
@@ -220,7 +242,7 @@
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -230,6 +252,6 @@
             </div>
 
 
-        </div>
+        </div> -->
     </section>
 </aside>

@@ -6,7 +6,7 @@ require_once 'config/settings.php';
 $vista = (isset($_GET['cf_vst']) ? $_GET['cf_vst'] : 'inicio');
 $idItem = (isset($_GET['subcf_vst']) ? $_GET['subcf_vst'] : 0);
 $slug = (isset($_GET['slug']) ? $_GET['slug'] : '');
-$tituloPagina = "Administraci&oacute;n :: Altek Systems";
+$tituloPagina = "Centro de Recursos";
 
 if (is_file('controllers/'.$vista.'Controller.php') ) {
 	if (isset($_SESSION['user']['username'])) {	

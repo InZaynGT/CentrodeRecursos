@@ -1,7 +1,28 @@
 <link rel="stylesheet" href="<?php echo BASE_DIR; ?>css/jquery-ui.css">
+<link rel="stylesheet" href="<?php echo BASE_DIR; ?>css/pacientes.css">
 <script src="<?php echo BASE_DIR; ?>js/jquery-ui.js"></script>
 <script src="<?php echo BASE_DIR; ?>js/webcam.js"></script>
 
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro de que desea eliminar este paciente?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <script type="text/javascript">
@@ -23,12 +44,14 @@
     });
 
 
-    function openCamera() {
+    function open_camera() {
+        Webcam.reset()
+        $('#results').show()
         Webcam.set({
             width: 200,
             height: 150,
             dest_width: 400,
-            dest_height : 300,
+            dest_height: 300,
             image_format: 'jpeg',
             jpeg_quality: 100
         });
@@ -36,9 +59,13 @@
         Webcam.attach('#my_camera')
         var x = document.getElementById("capture");
         if (x.style.display === "none") {
-            x.style.display = "block";
+            x.style.display = "inline-block";
+            $("#off").show()
+            $("#open").hide()
+            $('#delete').hide()
         } else {
             x.style.display = "none";
+            $("#off").hide()
         }
 
     }
@@ -46,15 +73,18 @@
     function take_snapshot() {
         Webcam.snap(function(data_uri) {
             $(".image-tag").val(data_uri)
-            document.getElementById('results').innerHTML = '<img src="' + data_uri + '"/>';
+            document.getElementById('results').innerHTML = '<img id="imgPaciente" src="' + data_uri + '"/>';
 
         })
         Webcam.reset()
+        $('#off').hide()
+        $('#open').hide()
+        $("#delete").show()
 
         //ocultar el boton tomar foto una vez se toma la foto
         var x = document.getElementById("capture");
         if (x.style.display === "none") {
-            x.style.display = "block";
+            x.style.display = "inline-block";
         } else {
             x.style.display = "none";
         }
@@ -62,10 +92,30 @@
 
     }
 
-//
-$(document).ready(function() {
-    $("#capture").hide();
-})
+    function camera_off() {
+        Webcam.reset()
+        $('#capture').hide()
+        $('#off').hide()
+        $('#open').show()
+        $('#results').hide()
+
+
+    }
+    //Eliminar la foto para agregar una nueva
+    function delete_photo() {
+        $('#imgPaciente').remove();
+        $('#results').append("<div id='my_camera'></div>")
+        open_camera()
+
+
+    }
+
+    //
+    $(document).ready(function() {
+        $("#capture").hide();
+        $("#off").hide();
+        $("#delete").hide();
+    })
 </script>
 
 <?php $min = 'Pacientes';
@@ -74,12 +124,12 @@ $minS = 'Paciente'; ?>
 <aside class="right-side">
     <section class="content-header">
         <h1 style>
-            <?php echo $min; ?>
-            <small>Mantenimiento de Pacientes</small>
+            Listado de Pacientes
+            <small>Historiales Clínicos</small>
         </h1>
         <ol class="breadcrumb">
             <li>
-                <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#compose-modal"><i class="fa fa-file-o"></i> AGREGAR PACIENTE</a>
+                <a class="btn btn-primary btn-sm" href="agregar-paciente"></i>NUEVO HISTORIAL CLÍNICO</a>
             </li>
         </ol>
     </section>
@@ -95,15 +145,18 @@ $minS = 'Paciente'; ?>
                     </div>
                     <form id="addPacient" method="POST">
                         <div class="modal-body">
-
-                            <div id="results">
-                                <div id="my_camera"></div>
+                            <div class="foto-div">
+                                <div id="results">
+                                    <div id="my_camera"></div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <span class="input-group-addon"><i class="fa fa-camera"></i>
                                     <input type=button id="capture" value="Tomar foto" onClick="take_snapshot()">
-                                    <input name="imagen" type="button" id="open" value="Encender cámara" onClick="openCamera()">
+                                    <input name="imagen" type="button" id="open" value="Encender cámara" onClick="open_camera()">
+                                    <input type="button" id="off" value="Apagar" onClick="camera_off()">
                                     <input type="hidden" name="image" class="image-tag">
+                                    <input type="button" id="delete" name="eliminarFoto" value="Cambiar foto" onClick="delete_photo()">
                             </div>
                             <div class="form-group col-md-4">
                                 <div class="input-group">
@@ -123,7 +176,7 @@ $minS = 'Paciente'; ?>
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-building"></i></span>
-                                    <input name="direccion" type="text" class="form-control" placeholder="Dirección" maxlength="75" >
+                                    <input name="direccion" type="text" class="form-control" placeholder="Dirección" maxlength="75">
                                 </div>
                             </div>
                             <div class="form-group col-md-4">
@@ -247,9 +300,9 @@ $minS = 'Paciente'; ?>
                                 </div>
                             </div>
                             <div class="modal-header col-md-12">
-                        <h4 class="modal-title"><i class="fa fa-file-o"></i> Antecedentes familiares</h4>
-                    </div>
-                            
+                                <h4 class="modal-title"><i class="fa fa-file-o"></i> Antecedentes familiares</h4>
+                            </div>
+
                             <div class="form-group col-md-4">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -275,7 +328,7 @@ $minS = 'Paciente'; ?>
                                 <label for="txtObservaciones">* Observaciones </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                    <textarea id="txtObservaciones" name="observaciones" class="form-control" maxlength="150" rows="1" ></textarea>
+                                    <textarea id="txtObservaciones" name="observaciones" class="form-control" maxlength="150" rows="3"></textarea>
                                 </div>
                             </div>
 
@@ -301,67 +354,107 @@ $minS = 'Paciente'; ?>
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Listado de <?php echo $min; ?></h3>
+                    </div>
+                    <div>
+                            <a class="btn-danger pull-right d-flex" style="margin:1rem; padding:1rem; border-radius:3px" href="reportes/reporte_paciente.php" target="_blank" style="text-decoration:none;">PDF</a>
                     </div>
                     <div class="box-body table-responsive">
-                        <script>
-                            $(document).ready(function() {
-                                $("#tablaPacientes").DataTable({
-                                    "serverSide": true,
-                                    "responsive": true,
-                                    "paging": true,
-                                    "processing": true,
-                                    "ajax": "<?php echo BASE_DIR; ?>serverside/getData.php",
-                                    "pageLength": 50,
-                                    "fnCreatedRow": function(nRow,aData,iDataIndex){
+                    <script>
+$(document).ready(function () {
+    var idEliminarPaciente; // Variable para almacenar el ID del paciente a eliminar
 
-                                        $('td:eq(6)', nRow).html('<a title="Editar" href="<?php echo BASE_DIR; ?>editar-pacientes/'+aData[0]+'-'+aData[1]+'"><i class="fa fa-edit"></i></a>');
+    $("#tablaPacientes").DataTable({
+        //"serverSide": true,
+        "responsive": true,
+        //"paging": true,
+        //"processing": true,
+        //"ajax": "<?php echo BASE_DIR; ?>serverside/getDataPacientes.php",
+        "pageLength": 50,
+        "fnCreatedRow": function (nRow, aData, iDataIndex) {
+            // Agregar enlace para editar paciente
+            var editLink = '<a title="Editar" href="<?php echo BASE_DIR; ?>editar-pacientes/' + aData[0] + '-' + aData[0] + '"><i class="fa fa-edit" style="margin-right:2px; font-size:30px"></i></a>';
 
-                                    },
-                                    dom: 'Blfrtip',
-                                    order: [],
-                                    buttons: [{
-                                            extend: 'excel',
-                                            footer: true
-                                        },
-                                        {
-                                            extend: 'pdf',
-                                            footer: true,
-                                            orientation: 'landscape',
-                                            pageSize: 'LETTER',
-                                            title: 'Administraci&oacute;n \nListado de  <?php echo $min; ?>'
-                                        },
-                                        {
-                                            extend: 'print',
-                                            footer: true,
-                                            orientation: 'landscape',
-                                            pageSize: 'LETTER',
-                                            title: 'Administraci&oacute;n <br/>Listado de  <?php echo $min; ?>'
-                                        }
-                                    ]
+            // Agregar enlace para visualizar paciente
+            var viewLink = '<a title="Visualizar" href="<?php echo BASE_DIR; ?>visualizar-paciente/' + aData[0] + '-' + aData[0] + '"><i class="fa fa-eye" style="color:green; font-size:30px" ></i></a>';
 
-                                });
-                            });
-                        </script>
-                        <table id="tablaPacientes" class="table table-bordered table-striped table-bordered table-condensed">
+            // Agregar enlace para eliminar paciente con modal de confirmación
+            var deleteLink = '<a title="Eliminar" href="#" data-toggle="modal" data-target="#confirmDeleteModal" data-id="' + aData[0] + '"><i class="fa fa-trash" style="color:red; font-size:30px"></i></a>';
+
+            // Insertar los enlaces en la última columna (índice 6)
+            $('td:eq(6)', nRow).html(editLink + ' ' + viewLink + ' ' + deleteLink);
+},
+        dom: 'Blfrtip',
+        order: [],
+        buttons: [{
+            extend: 'excel',
+            footer: true
+        }]
+    });
+
+    // Capturar el ID cuando se hace clic en "Eliminar"
+    $('a[data-target="#confirmDeleteModal"]').click(function () {
+        idEliminarPaciente = $(this).data('id');
+    });
+
+    // Acción al confirmar la eliminación de paciente
+    $('#confirmDelete').click(function () {
+        // Realizar la eliminación utilizando AJAX o como lo estás haciendo actualmente
+        $.ajax({
+            url: 'eliminar-paciente', // Cambia la URL a tu script de eliminación
+            type: 'POST',
+            data: { idItem: idEliminarPaciente },
+            success: function (response) {
+                // Comprueba la respuesta para ver si la eliminación fue exitosa
+                if (response === 'success') {
+                    // Redirige a la página de pacientes
+                    window.location.href = "<?php echo BASE_DIR; ?>pacientes";
+                } else {
+                    // Muestra un mensaje de error
+                    alert('No se puede eliminar. Actualice la página.');
+                }
+            },
+            error: function () {
+                alert('Error al eliminar el paciente, hable con el administrador.');
+            }
+        });
+
+        // Cierra el modal
+        $('#confirmDeleteModal').modal('hide');
+    });
+});
+</script>
+
+                        <table id="tablaPacientes" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                <th>Codigo</th>
-                                    <th>Nombres</th>
-                                    <th>Apellidos</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Fecha Ingreso</th>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha y Hora de Registro</th>
+                                    <th>Nombre de Encargado</th>
+                                    <th>telefono</th>
+                                    <th>Diagnóstico</th>
                                     <th>Acciones</th>
-                                    
                             </thead>
                             <tbody>
+                                <?php
+                                    foreach ($array as $columna) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $columna['idpaciente']; ?></td>
+                                        <td><?php echo $columna['nombre']; ?></td>
+                                        <td><?php echo $columna['fecha_ingreso'];?></td>
+                                        <td><?php echo $columna['nombre_encargado']; ?></td>
+                                        <td><?php echo $columna['telefono']; ?></td>
+                                        <td><?php echo $columna['diagnostico']?></td>
+                                        <td class="acciones">
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                                 
                             </tbody>
-                            
                             <tfoot>
                                 <tr>
-                                <th>Codigo</th>
+                                    <th>Codigo</th>
                                     <th>Nombres</th>
                                     <th>Apellidos</th>
                                     <th>Dirección</th>
@@ -376,4 +469,5 @@ $minS = 'Paciente'; ?>
             </div>
         </div>
     </section>
+    
 </aside>

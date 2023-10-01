@@ -5,6 +5,7 @@
 	$totalPacientes = $dsh->getPacientesCount();
 	$totalConsultas = $dsh->getConsultasCount();
 	$totalCitas = $dsh ->getCitasCount();
+	$totalConsultasM = $dsh->getConsultasPorMes();
 	unset($dsh);
 	
 	require_once 'views/header.php';

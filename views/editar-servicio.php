@@ -4,7 +4,6 @@
 			$.ajax({
 				type: "POST",
 				url: $("#editarServicio").attr('action'),
-				url: $("#editarServicio").attr('action'),
 				data: $("#editarServicio").serialize(),
 				beforeSend: function () {
 				$("#result").html('<div class="loading"></div>');
@@ -50,7 +49,7 @@
                             <div class="form-group col-xs-11">
 									<div class="input-group">
 											<span class="input-group-addon"><i class="fa fa-money"></i></span>
-											<input name="precio" type="number" step="0.01" value="<?php echo number_format($servicio['precio'],2,'.',',') ; ?>" class="form-control" required>
+											<input name="precio" type="number" step="0.01" value="<?php echo $servicio['precio'] ?>" class="form-control" required>
 									</div>
 							</div>
 						</div>
@@ -79,7 +78,7 @@
 						<tbody>
 						<tr>
 							<th>C&oacute;digo:</th>
-							<td><?php echo $servicio['idservicio']; ?></td>
+							<td><?php echo $servicio['idproducto_servicio']; ?></td>
 						</tr>
 						<tr>
 							<th>Nombre:</th>

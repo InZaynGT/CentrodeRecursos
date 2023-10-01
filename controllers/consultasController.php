@@ -1,12 +1,10 @@
 <?php
 
-	require_once 'models/consultaModel.php';
-	$consulta = new Consulta();
+require_once 'models/consultaModel.php';
+$u = new Consulta();
+$idPaciente = $_SESSION['user']['id'];
+$array = $u->getConsulta($idPaciente);
 
-	$consultas =  $consulta->getConsultas();
-	unset($consulta);
-
-
-    require_once 'views/header.php';
-	require_once 'views/consultas.php';
-	require_once 'views/footer.php';
+require_once 'views/header.php';
+require_once 'views/consultas.php';
+require_once 'views/footer.php';

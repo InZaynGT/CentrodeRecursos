@@ -1,6 +1,11 @@
 <?php
 //permiso(1);
-if (count($_POST) > 0) {
+require_once 'models/pacienteModel.php';
+$u = new Patient();
+$idPaciente = $_SESSION['user']['id'];
+$array = $u->getPaciente($idPaciente);
+
+if ($_SERVER['REQUEST_METHOD']=="POST") {
 	if (count($_POST) > 0 && isset($_POST['nombres']) && isset($_POST['apellidos']) && isset($_POST['direccion']) 
 	&& isset($_POST['direccionTrabajo']) && isset($_POST['lugarTrabajo']) && isset($_POST['ocupacion']) && isset($_POST['telefono'])
 	&& isset($_POST['fechaNacimiento']) && isset($_POST['dpi']) && isset($_POST['genero']) && isset($_POST['estadoCivil']) 

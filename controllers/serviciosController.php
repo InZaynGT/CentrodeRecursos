@@ -1,11 +1,14 @@
 <?php
-if (count($_POST) > 0) {
+require_once 'models/servicioModel.php';
+$i = new Servicio();
+$idPaciente = $_SESSION['user']['id'];
+$array = $i->getServicio($idPaciente);
+
+if ($_SERVER['REQUEST_METHOD']=="POST") {
     if (count($_POST) > 0 && isset($_POST['nombreServicio']) && isset($_POST['precioServicio'])) {
         $nombre = $_POST['nombreServicio'];
         $precio = $_POST['precioServicio'];
 
-        require_once 'models/servicioModel.php';
-        $i = new Servicio();
         $insert =  $i->setServicio($nombre, $precio);
         if ($insert) {
             
@@ -20,18 +23,17 @@ if (count($_POST) > 0) {
 									$(location).attr("href","'.BASE_DIR.'servicios");
 								</script>
 							';
-        } else {
+        } 
+        // else {
             
-            echo '<div class="alert alert-danger alert-dismissable">
-                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times-circle-o"></i></button>
-                 <b>Error:</b> No se pudo almacenar el registro, recarge la p&aacute;gina e int&eacute;ntelo nuevamente.
-                 </div>';
-        }
+        //     echo '<div class="alert alert-danger alert-dismissable">
+        //          <button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times-circle-o"></i></button>
+        //          <b>Error:</b> No se pudo almacenar el registro, ya que ya se encuentra almacenado.
+        //          </div>';
+        // }
     }
-} else {
-    require_once 'models/servicioModel.php';
-    $s = new Servicio();
-    $servicios = $s->getServicios();
+}
+ else {
 
     require_once 'views/header.php';
     require_once 'views/servicios.php';

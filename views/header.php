@@ -77,7 +77,7 @@
 	<!--<header class="header" style="position:fixed"-->
 	<header class="header">
 		<a href="<?php echo BASE_DIR; ?>" class="logo">
-			DOCTOR ASSIST
+			CENTRO DE RECURSOS
 		</a>
 		<!--		<nav class="navbar navbar-static-top" role="navigation">-->
 		<nav class="navbar navbar-static-top" role="navigation">
@@ -91,7 +91,7 @@
 				<ul class="nav navbar-nav">
 
 					<li class="user user-menu">
-						<a href="<?php echo BASE_DIR; ?>mi-cuenta">
+						<a href="<?php echo BASE_DIR; ?>inicio">
 							<i class="fa fa-user"></i>
 							<span><?php echo $_SESSION['user']['username']; ?></span>
 						</a>
@@ -111,7 +111,7 @@
 			<section class="sidebar">
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="<?php echo BASE_DIR; ?>img/avatar1.png" class="img-circle" alt="User Image" />
+						<img src="<?php echo BASE_DIR; ?>img/fundal.jpg" class="img-circle" alt="User Image" />
 					</div>
 					<div class="pull-left info">
 						<p><?php echo $_SESSION['user']['usuario']; ?></p>
@@ -134,10 +134,19 @@
 						</a>
 					</li>
 
-					<li>
-						<a href="<?php echo BASE_DIR; ?>pacientes">
-							<i class="fa fa-users"></i> <span>Pacientes</span>
+					<li class="treeview">
+						<div id="linkper"></div>
+						<a href="#" class="clicmenu" data-link="linkper">
+							<i class="fa fa-child"></i>
+							<span>Historiales Clínicos</span>
+							<i class="fa pull-right fa-angle-right"></i>
 						</a>
+						<ul style="display: none;" class="treeview-menu">
+							<li><a href="<?php echo BASE_DIR; ?>agregar-paciente">Crear paciente</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>pacientes">Listado de pacientes</a></li>
+
+							<!--<li><a href="<?php echo BASE_DIR; ?>consultas">Reporte de consultas</a></li>-->
+						</ul>
 					</li>
 
 					<li class="treeview">
@@ -150,13 +159,13 @@
 						<ul style="display: none;" class="treeview-menu">
 							<li><a href="<?php echo BASE_DIR; ?>agregar-consulta">Crear consulta</a></li>
 							<li><a href="<?php echo BASE_DIR; ?>consultas">Listado de consultas</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>consultas">Reporte de consultas</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>servicios">Servicios</a></li>
+
+							<!--<li><a href="<?php echo BASE_DIR; ?>consultas">Reporte de consultas</a></li>-->
 						</ul>
 					</li>
 
 					<!-- /////////////////////////// PERSONAL /////////////////////////////////// -->
-					<li class="treeview">
+					<!--<li class="treeview">
 						<div id="linkper"></div>
 						<a href="#" class="clicmenu" data-link="linkper">
 							<i class="fa fa-sitemap"></i>
@@ -164,10 +173,25 @@
 							<i class="fa pull-right fa-angle-right"></i>
 						</a>
 						<ul style="display: none;" class="treeview-menu">
-							<li><a href="<?php echo BASE_DIR; ?>mecanicos">Médicos</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>usuarios">Usuarios</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>mecanicos">Médicos</a></li> 
+							<li><a href="<?php echo BASE_DIR; ?>usuarios">Usuarios</a></li> 
 						</ul>
-					</li>
+					</li>-->
+
+					<!-- <li class="treeview">
+						<div id="linkper"></div>
+						<a href="#" class="clicmenu" data-link="linkper">
+							<i class="fa fa-cogs"></i>
+							<span>Configuraciones</span>
+							<i class="fa pull-right fa-angle-right"></i>
+						</a>
+						<ul style="display: none;" class="treeview-menu">
+							<li><a href="<?php echo BASE_DIR; ?>servicios">Servicios</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>ultrasonidos">Ultrasonidos</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>medicamentos">Medicamentos</a></li>
+							<li><a href="<?php echo BASE_DIR; ?>laboratorios">Exámenes de laboratorio</a></li>
+						</ul>
+					</li> -->
 
 
 				</ul>

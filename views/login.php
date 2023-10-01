@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Administraci&oacute;n :: Clinica</title>
+	<title>Centro de Recursos</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
-	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>favicon.ico" type="image/x-icon" >
+	<link rel="shortcut icon" href="<?php echo BASE_DIR ?>clinic.ico" type="image/x-icon" >
 	<link href="<?php echo BASE_DIR ?>css/font-awesome.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/style.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_DIR ?>css/bootstrap.css" rel="stylesheet" type="text/css" />
@@ -22,7 +22,7 @@
 	<meta name="msapplication-starturl" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!------- END PWA ------->
-	<link rel="manifest" href="manifest_v_0.2.json">
+
     <script src="<?php echo BASE_DIR; ?>js/jquery-1.11.1.js"></script>
  
 		
@@ -74,7 +74,7 @@
 </div>
 <body class="loginbody">
 	<div style="position: relative;">
-		<div style="background-color: transparent; position: absolute; left: 100px; top: -50px; z-index: 3;">
+		<div style="background-color: white; position: absolute; left: 100px; top: -50px; z-index: 3;">
 		<a href="<?php  echo BASE_DIR; ?>">
 			<i class="fa fa-user" style="font-size:80px;text-align: center;display: block;color:#3C78BC;padding: 10px;"></i>
 		</a>
@@ -109,7 +109,7 @@
 		 </div>
 		<p>
 			<i class="fa fa-copyright"></i>
-			Sistemas Altek <?php echo date("Y"); ?>. Todos los derechos reservados.
+			Centro de Recursos <?php echo date("Y"); ?>. Todos los derechos reservados.
 		</p>
 	</div>
 </body>

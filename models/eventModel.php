@@ -3,15 +3,16 @@ require_once 'models/configuracionModel.php';
 
 class Event extends Configuracion {
 
-	public function addEvent($title,$description,$color,$start,$end) {
+	public function addEvent($title,$description,$color,$start,$end, $idUsuario) {
 		
 		$pdo = parent::conexion();
-		$stmt = $pdo->prepare("INSERT INTO events(title,description,color,start_event,end_event) values(:title,:description,:color,:start,:end);");
+		$stmt = $pdo->prepare("INSERT INTO events(title,description,color,start_event,end_event, id_usuario) values(:title,:description,:color,:start,:end, :idUsuario);");
 		$stmt->bindParam(':title', $title);
 		$stmt->bindParam(':description', $description);
 		$stmt->bindParam(':color', $color);
 		$stmt->bindParam(':start', $start);
 		$stmt->bindParam(':end', $end);
+		$stmt->bindParam(':idUsuario', $idUsuario);
 		$insert = $stmt->execute();
 		if($insert==false){
 			print_r($stmt->errorInfo());

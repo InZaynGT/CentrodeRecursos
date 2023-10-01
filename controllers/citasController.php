@@ -1,23 +1,31 @@
 <?php
 
-if (count($_POST) > 0) {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	if (isset($_POST['title']) && isset($_POST['color']) && isset($_POST['start']) && isset($_POST['end'])) {
         $title=$_POST['title'];
         $description="";
 		$start=$_POST['start'];
 		$end=$_POST['end'];
         $color=$_POST['color'];
-
+		$idUsuario = $_SESSION['user']['id'];
 	
 	    require_once 'models/eventModel.php';
 						$e = new Event();
-						$insert = $e->addEvent($title,$description,$color,$start,$end);
-						if ($insert == true) {
-							// sleep(1);
-							header('Location: citas');
-						}else{
-							echo 'Ha ocurrido un Error';
+						if ($end > $start){
+							$insert = $e->addEvent($title,$description,$color,$start,$end, $idUsuario);
+							if ($insert == true) {
+								sleep(1);
+								header('Location: citas');
+							}else{
+								echo 'Ha ocurrido un Error';
+							}
 						}
+						else{
+							echo '<script>alert("La cita no pudo ser ingresada porque la fecha final era mayor a la fecha de inicio.");</script>';
+							echo '<meta http-equiv="refresh" content="1;url=http://localhost/clinica/citas">';
+
+						}
+						
 
 	}
 	if(isset($_POST['update']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['id'])){
@@ -55,9 +63,9 @@ if (count($_POST) > 0) {
 
 	}
 	
-	else {
-		echo 'No se puede realizar ninguna acci&oacute;n';
-	}
+	// else {
+	// 	echo 'No se puede realizar ninguna acci&oacute;n';
+	// }
 }
 else {
 	require_once 'models/eventModel.php';
