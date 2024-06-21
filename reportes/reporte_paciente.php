@@ -3,7 +3,7 @@
 
 
 	//CONEXION A BASE DE DATOS
-	$conexion=mysqli_connect('127.0.0.1:3307','root','admin','clinica');
+	$conexion=mysqli_connect('127.0.0.1:3307','root','SAMI_zayn2802','clinica');
     require_once 'dbconfig.php';
 
 
@@ -20,28 +20,35 @@ $pdf->setPrintFooter(false);
 //add page
 $pdf->AddPage();
 
-//add content (student list)
-//title
-$pdf->SetFont('Helvetica','',20);
-$pdf->Cell(190,10,"CENTRO DE RECURSOS, FUNDAL HUEHUETENANGO",0,1,'C');
+// Logo a la izquierda
+$pdf->Image('../img/logo_fundal.png', 15, 15, 40);
 
-$pdf->SetFont('Helvetica','',14);
-$pdf->Cell(190,5,"Listado de Pacientes Inscritos",0,1,'C');
+$pdf->SetAlpha(0.2);
+$pdf->Image('../img/marca_agua.png', 50, 100, 120, 0, 'PNG'); // Cambia 'ruta_de_la_imagen.png' a la ubicación de tu imagen de marca de agua
+$pdf->SetAlpha(1);
 
-$pdf->SetFont('Helvetica','',10);
+// Título alineado a la derecha
+$pdf->SetFont('Helvetica', '', 20);
+$pdf->Cell(0, 40, "CENTRO DE RECURSOS", 0, 1, 'C');
+
+$pdf->SetFont('Helvetica', '', 14);
+$pdf->Cell(0, 10, "-FUNDAL, sede Huehuetenango-", 0, 1, 'C');
+
+// Título del informe
+$pdf->SetFont('Helvetica', '', 20);
+$pdf->Cell(0, 20, "Listado de Últimos Pacientes Registrados", 0, 1, 'C');
+$pdf->SetFont('Helvetica', '', 12);
 
 //PLANTILLA QUE USAREMOS PARA EL HTML, AQUÍ EDITAMOS EL ENCABEZADO DE LA TABLA
 $html = "
-	<table>
-		<tr>
-			<th>Codigo</th>
-			<th>Nombre</th>
-            <th>Fecha y Hora de Registro</th>
-			<th>Nombre de Encargado</th>
-            <th>Teléfono</th>
-            <th>Diagnostico</th>
-		</tr>
-		";
+    <table style='width: 100%; border-collapse: collapse;'>
+        <tr style='background-color: #888; color: #fff;'>
+            <th style='border: 1px solid #888; padding: 5px;'>Nro. Paciente</th>
+            <th style='border: 1px solid #888; padding: 5px;'>Nombre de Paciente</th>
+            <th style='border: 1px solid #888; padding: 5px;'>Fecha de Ingreso</th>
+            <th style='border: 1px solid #888; padding: 5px;'>Nombre de Encargado</th>
+        </tr>
+    ";
 
 		//SENTENCIA SQL DE LOS DATOS QUE VAMOS A TRAER
 		$sql="SELECT *
@@ -83,21 +90,30 @@ foreach($data2 as $student){
 }		
 
 //ESTILOS DE LA TABLA
+// Estilos para la tabla
+$html .= "</table>";
+
+// Estilos mejorados para la tabla
 $html .= "
-	</table>
-	<style>
-	table {
-		border-collapse:collapse;
-	}
-	th,td {
-		border:1px solid #888;
-	}
-	table tr th {
-		background-color:#888;
-		color:#fff;
-		font-weight:bold;
-	}
-	</style>
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    table tr th {
+        background-color: #333;
+        color: #fff;
+        font-weight: bold;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
 ";
 //WriteHTMLCell
 $pdf->WriteHTMLCell(192,0,9,'',$html,0);	

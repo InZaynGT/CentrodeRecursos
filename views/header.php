@@ -74,7 +74,7 @@
 </head>
 
 <body class="skin-blue">
-	<!--<header class="header" style="position:fixed"-->
+	
 	<header class="header">
 		<a href="<?php echo BASE_DIR; ?>" class="logo">
 			CENTRO DE RECURSOS
@@ -120,78 +120,72 @@
 					</div>
 				</div>
 				<ul class="sidebar-menu">
-					<!-- /////////////////////////// ESCRITORIO /////////////////////////////////// -->
-					<li>
-						<a href="<?php echo BASE_DIR; ?>">
-							<i class="fa fa-dashboard"></i> <span>Escritorio</span>
-						</a>
-					</li>
+    <!-- /////////////////////////// ESCRITORIO /////////////////////////////////// -->
+    <li>
+        <a href="<?php echo BASE_DIR; ?>">
+            <i class="fa fa-dashboard"></i> <span>Escritorio</span>
+        </a>
+    </li>
 
-					<li>
-						<a href="<?php echo BASE_DIR; ?>citas">
-							<i class="fa fa-calendar-check-o"></i> 
-							<span>Citas</span>
-						</a>
-					</li>
+	<!-- Titulo para Citas -->
+    <li>
+        <a>
+            <span>Citas</span>
+        </a>
+    </li>
 
-					<li class="treeview">
-						<div id="linkper"></div>
-						<a href="#" class="clicmenu" data-link="linkper">
-							<i class="fa fa-child"></i>
-							<span>Historiales Clínicos</span>
-							<i class="fa pull-right fa-angle-right"></i>
-						</a>
-						<ul style="display: none;" class="treeview-menu">
-							<li><a href="<?php echo BASE_DIR; ?>agregar-paciente">Crear paciente</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>pacientes">Listado de pacientes</a></li>
+    <!-- Botones para Historiales Clínicos -->
+    <li>
+        <a href="<?php echo BASE_DIR; ?>citas">
+            <i class="fa fa-calendar-check-o"></i> 
+            <span>Citas</span>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" href="<?php echo BASE_DIR; ?>reportes/reporte_citas.php">
+            <i class="fa fa-book"></i> <span>Generar Lista de Citas</span>
+        </a>
+    </li>
 
-							<!--<li><a href="<?php echo BASE_DIR; ?>consultas">Reporte de consultas</a></li>-->
-						</ul>
-					</li>
+    <!-- Titulo para Historiales Clínicos -->
+    <li>
+        <a>
+            <span>Historiales Clínicos</span>
+        </a>
+    </li>
 
-					<li class="treeview">
-						<div id="linkper"></div>
-						<a href="#" class="clicmenu" data-link="linkper">
-							<i class="fa fa-user-md"></i>
-							<span>Consultas</span>
-							<i class="fa pull-right fa-angle-right"></i>
-						</a>
-						<ul style="display: none;" class="treeview-menu">
-							<li><a href="<?php echo BASE_DIR; ?>agregar-consulta">Crear consulta</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>consultas">Listado de consultas</a></li>
+    <!-- Botones para Historiales Clínicos -->
+    <li>
+        <a href="<?php echo BASE_DIR; ?>agregar-paciente">
+            <i class="fa fa-user-plus"></i> <span>Crear paciente</span>
+        </a>
+    </li>
+    <li>
+        <a href="<?php echo BASE_DIR; ?>pacientes">
+            <i class="fa fa-users"></i> <span>Listado de pacientes</span>
+        </a>
+    </li>
 
-							<!--<li><a href="<?php echo BASE_DIR; ?>consultas">Reporte de consultas</a></li>-->
-						</ul>
-					</li>
+    <!-- Titulo para Consultas -->
+    <li>
+        <a>
+            <span>Consultas</span>
+        </a>
+    </li>
 
-					<!-- /////////////////////////// PERSONAL /////////////////////////////////// -->
-					<!--<li class="treeview">
-						<div id="linkper"></div>
-						<a href="#" class="clicmenu" data-link="linkper">
-							<i class="fa fa-sitemap"></i>
-							<span>Personal</span>
-							<i class="fa pull-right fa-angle-right"></i>
-						</a>
-						<ul style="display: none;" class="treeview-menu">
-							<li><a href="<?php echo BASE_DIR; ?>mecanicos">Médicos</a></li> 
-							<li><a href="<?php echo BASE_DIR; ?>usuarios">Usuarios</a></li> 
-						</ul>
-					</li>-->
+    <!-- Botones para Consultas -->
+    <li>
+        <a href="<?php echo BASE_DIR; ?>agregar-consulta">
+            <i class="fa fa-stethoscope"></i> <span>Crear consulta</span>
+        </a>
+    </li>
+    <li>
+        <a href="<?php echo BASE_DIR; ?>consultas">
+            <i class="fa fa-list"></i> <span>Listado de consultas</span>
+        </a>
+    </li>
+</ul>
 
-					<!-- <li class="treeview">
-						<div id="linkper"></div>
-						<a href="#" class="clicmenu" data-link="linkper">
-							<i class="fa fa-cogs"></i>
-							<span>Configuraciones</span>
-							<i class="fa pull-right fa-angle-right"></i>
-						</a>
-						<ul style="display: none;" class="treeview-menu">
-							<li><a href="<?php echo BASE_DIR; ?>servicios">Servicios</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>ultrasonidos">Ultrasonidos</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>medicamentos">Medicamentos</a></li>
-							<li><a href="<?php echo BASE_DIR; ?>laboratorios">Exámenes de laboratorio</a></li>
-						</ul>
-					</li> -->
 
 
 				</ul>

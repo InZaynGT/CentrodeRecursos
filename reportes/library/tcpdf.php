@@ -7636,7 +7636,7 @@ class TCPDF {
 	 * @since 1.0
 	 * @see Close()
 	 */
-	public function Output($name='Reporte', $dest='I') {
+	public function Output($name='Reporte.pdf', $dest='I') {
 		//Output PDF to some destination
 		//Finish document if necessary
 		if ($this->state < 3) {

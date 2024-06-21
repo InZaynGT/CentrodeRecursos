@@ -834,9 +834,7 @@ $minS = 'Paciente'; ?>
                                                     <span class="input-group-addon">Dirección:</span>
                                                     <textarea id="direccion" name="direccion"
                                                         class="form-control" maxlength="150" rows="2"
-                                                        style="overflow:auto;resize:none" disabled>
-                                                        <?php echo $consulta[0]['direccion']; ?>
-                                                    </textarea>
+                                                        style="overflow:auto;resize:none" disabled><?php echo $consulta[0]['direccion']; ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-11">
@@ -944,10 +942,9 @@ $minS = 'Paciente'; ?>
                                                                 <th>Historia Enfermedad Actual</th>
                                                                 <td>
                                                                     <div>
-                                                                        <input id="historia_enfermedad" type="text"
-                                                                            name="historia_enfermedad" class="form-control"
-                                                                            maxlength="200"
-                                                                            value="<?php echo $consulta[0]['enfermedad_actual']; ?>" disabled></input>
+                                                                        <textarea disabled id="historia_enfermedad" type="text"
+                                                                            name="historia_enfermedad" style="resize: none;" class="form-control"
+                                                                            maxlength="500" rows="10"><?php echo $consulta[0]['enfermedad_actual']; ?></textarea>
                                                                     </div>
                                                                 </td>
                                                             </tr>

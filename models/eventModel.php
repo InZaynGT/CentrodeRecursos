@@ -23,23 +23,25 @@ class Event extends Configuracion {
 		
 	}
 
-	public function getEvents(){
+	public function getEvents($idusuario){
 		$pdo = parent::conexion();
-		$stmt = $pdo->prepare("SELECT * FROM events ORDER BY id_event;");
+		$stmt = $pdo->prepare("SELECT * FROM events WHERE id_usuario = :idusuario ORDER BY id_event ;");
+		$stmt->bindParam(":idusuario", $idusuario);
 		$stmt->execute();
 
 		$result = $stmt->fetchAll();
+		$data = array();
 
+		if($result){
 		foreach($result as $event){
 			$data[] = array(
 				'id' => $event["id_event"],
 				'title' => $event["title"],
-				//'description' => $event["description"],
 				'color' => $event["color"],
 				'start' => $event["start_event"],
 				'end' => $event["end_event"]
 			);
-		}
+		}}
 		return $data;
 	}
 

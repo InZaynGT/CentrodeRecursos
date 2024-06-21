@@ -26,16 +26,24 @@ class DASHBOARD extends Configuracion {
             $insumos = array();
             $pdo = parent::conexion();
             $sql = "SELECT 
-            DATE_FORMAT(STR_TO_DATE(CONCAT(MONTHNAME(fechaconsulta), ' ', YEAR(fechaconsulta)), '%M %Y'), '%M %Y') AS mes,
-            COUNT(*) AS cantidad
-        FROM 
-            consulta
-        WHERE 
-            fechaconsulta >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+            mes,
+            SUM(cantidad) AS cantidad
+        FROM (
+            SELECT 
+                DATE_FORMAT(fechaconsulta, '%M %Y') AS mes,
+                COUNT(*) AS cantidad
+            FROM 
+                consulta
+            WHERE 
+                fechaconsulta >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
+            GROUP BY 
+                mes
+        ) subquery
         GROUP BY 
             mes
         ORDER BY 
-            STR_TO_DATE(mes, '%M %Y')";
+            STR_TO_DATE(CONCAT('01 ', mes), '%d %M %Y') ASC;
+        ";
             $query = $pdo->query($sql);
             while( $resultado = $query->fetch(PDO::FETCH_ASSOC) ){
               $insumos[] = $resultado;

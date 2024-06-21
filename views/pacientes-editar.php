@@ -942,10 +942,9 @@ $minS = 'Paciente'; ?>
                                                                 <th>Historia Enfermedad Actual</th>
                                                                 <td>
                                                                     <div>
-                                                                        <input id="historia_enfermedad" type="text"
-                                                                            name="historia_enfermedad" class="form-control"
-                                                                            maxlength="200"
-                                                                            value="<?php echo $consulta[0]['enfermedad_actual']; ?>"></input>
+                                                                        <textarea id="historia_enfermedad" type="text"
+                                                                            name="historia_enfermedad" style="resize: none;" class="form-control"
+                                                                            maxlength="500" rows="10"><?php echo $consulta[0]['enfermedad_actual']; ?></textarea>
                                                                     </div>
                                                                 </td>
                                                             </tr>

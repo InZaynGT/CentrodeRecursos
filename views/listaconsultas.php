@@ -49,12 +49,17 @@
 		background-color: #1462ba;
 	}
 </style>
-<?php $min = 'Pacientes con Consultas';
+<?php $min = 'Consultas de '. $array[0]['nombre'];
 $may = 'CONSULTAS';
 $minS = 'Consultas'; ?>
 <aside class="right-side">
 	<section class="content-header">
 		<h1 style="text-align: center;">
+		<div style="float: left;">
+			<a href="<?php echo BASE_DIR; ?>consultas" class="btn btn-default btn-sm" style="text-decoration:none;">
+				<i class="fa fa-arrow-left"></i> Listado de Pacientes
+			</a>
+		</div>
 			<?php echo $min; ?>
 		</h1>
 		<ol class="breadcrumb">
@@ -85,16 +90,16 @@ $minS = 'Consultas'; ?>
 
 								$("#tablaConsultas").dataTable({
 									"order": [
-										[0, 'desc']
+										[1, 'desc']
 									],
 									"responsive": true,
 									"pageLength": 50,
 									"fnCreatedRow": function (nRow, aData, iDataIndex) {
 										// Agregar enlace para eliminar consulta con modal de confirmación
-										//$('td:eq(1)', nRow).append('<a title="Listado de Consultas" href="<?php echo BASE_DIR; ?>listaconsultas/' + aData[0] + '-' + aData[0] + '"><i class="fa fa-external-link" style="font-size:30px; margin-right:3px"></i></a>').css('text-align', 'center')
-									 	// $('td:eq(5)', nRow).append('<a title="Visualizar Consulta" href="<?php echo BASE_DIR; ?>visualizar-consulta/' + aData[0] + '-' + aData[2] + '"><i class="fa fa-eye" style="color:green; font-size:30px"></i></a>').css('text-align', 'center')
-									 	// $('td:eq(5)', nRow).append('<a title="Eliminar Consulta" href="#" data-toggle="modal" data-target="#confirmarEliminarModal" data-id="' + aData[0] + '"><i class="fa fa-trash" style="font-size:30px; margin-right:3px"></i></a>').css('text-align', 'center');
-									 },
+										$('td:eq(3)', nRow).append('<a title="Editar Consulta" href="<?php echo BASE_DIR; ?>editar-consulta/' + aData[0] + '-' + aData[0] + '"><i class="fa fa-edit" style="font-size:30px; margin-right:3px"></i></a>').css('text-align', 'center')
+										$('td:eq(3)', nRow).append('<a title="Visualizar Consulta" href="<?php echo BASE_DIR; ?>visualizar-consulta/' + aData[0] + '-' + aData[0] + '"><i class="fa fa-eye" style="color:green; font-size:30px"></i></a>').css('text-align', 'center')
+										$('td:eq(3)', nRow).append('<a title="Eliminar Consulta" href="#" data-toggle="modal" data-target="#confirmarEliminarModal" data-id="' + aData[0] + '"><i class="fa fa-trash" style="font-size:30px; margin-right:3px"></i></a>').css('text-align', 'center');
+									},
 									dom: 'Bfrtip',
 									buttons: [{
 										extend: 'excel',
@@ -132,7 +137,10 @@ $minS = 'Consultas'; ?>
 						<table id="tablaConsultas" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th style="text-align: center">Nombre Paciente</th>
+									<th>Nro. Consulta</th>
+									<th>Fecha de Consulta</th>
+									<th>Estado</th>
+									<th>Acciones</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -142,18 +150,33 @@ $minS = 'Consultas'; ?>
 									// $fecha = new DateTime($columna['fecha']);
 									?>
 									<tr>
-									<td class="selectable" style="background-color: #f8f8f8; padding: 10px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer;">
-										<a href="<?php echo BASE_DIR; ?>listaconsultas/<?php echo $columna['idpaciente']; ?>-<?php echo $columna['idpaciente']; ?>" style="text-decoration: none; color: #333; display: flex; justify-content: space-between; align-items: center;">
-											<?php echo ucwords(strtolower($columna['nombre'])); ?> <!-- Aplicar capitalización aquí -->
-											<i class="fa fa-external-link" style="margin-left: 10px; font-size: 20px;"></i>
-										</a>
-									</td>
+										<td>
+											<?php echo $columna['idconsulta']; ?>
+										</td>
+										<td>
+											<?php echo $columna['fechaconsulta']; ?>
+										</td>
+										<td style="text-align: center;">
+											<?php if ($columna['estado'] == '1')
+												echo '<span class="label label-info">Activa</span>';
+											else if ($columna['estado'] == '2')
+												echo '<span class="label label-warning">Terminada</span>';
+											else if ($columna['estado'] == '3')
+												echo '<span class="label label-success">Pagada</span>';
+											else if ($columna['estado'] == '4')
+												echo '<span class="label label-danger">Anulada</span>';
+											; ?>
+										</td>
+										<td class="acciones"></td>
 									</tr>
 								<?php } ?>
 							</tbody>
 							<tfoot>
 								<tr>
-									<th style="text-align: center">Nombre Paciente</th>
+									<th>Nro. Consulta</th>
+									<th>Fecha</th>
+									<th>Estado</th>
+									<th>Acciones</th>
 								</tr>
 							</tfoot>
 						</table>

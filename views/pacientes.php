@@ -364,11 +364,7 @@ $(document).ready(function () {
     var idEliminarPaciente; // Variable para almacenar el ID del paciente a eliminar
 
     $("#tablaPacientes").DataTable({
-        //"serverSide": true,
         "responsive": true,
-        //"paging": true,
-        //"processing": true,
-        //"ajax": "<?php echo BASE_DIR; ?>serverside/getDataPacientes.php",
         "pageLength": 50,
         "fnCreatedRow": function (nRow, aData, iDataIndex) {
             // Agregar enlace para editar paciente
@@ -380,8 +376,15 @@ $(document).ready(function () {
             // Agregar enlace para eliminar paciente con modal de confirmación
             var deleteLink = '<a title="Eliminar" href="#" data-toggle="modal" data-target="#confirmDeleteModal" data-id="' + aData[0] + '"><i class="fa fa-trash" style="color:red; font-size:30px"></i></a>';
 
+            // // Agregar enlace para eliminar paciente con modal de confirmación
+            // var printLink = '<a title="Imprimir" href="<?php echo BASE_DIR; ?>reportes/reporte_historial/' + aData[0] + '-' + aData[0] + '"><i class="fa fa-print" style="color:red; font-size:30px"></i></a>';
+
+            // Agregar enlace para eliminar paciente con modal de confirmación
+            var printLink = '<a title="Imprimir" href="<?php echo BASE_DIR; ?>reportes/reporte_historial.php?idItem=' + aData[0] + '" target="_blank"><i class="fa fa-print" style="color:blue; font-size:30px"></i></a>';
+
+
             // Insertar los enlaces en la última columna (índice 6)
-            $('td:eq(6)', nRow).html(editLink + ' ' + viewLink + ' ' + deleteLink);
+            $('td:eq(6)', nRow).html(editLink + ' ' + viewLink + ' ' + deleteLink + ' ' + printLink);
 },
         dom: 'Blfrtip',
         order: [],

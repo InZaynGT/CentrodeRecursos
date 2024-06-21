@@ -78,7 +78,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="fecha" class="col-form-label">Fecha:</label>
-                                            <input type="date" class="form-control" id="fecha" name="fecha" required>
+                                            <input type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" id="fecha" name="fecha" required>
                                         </div>
                                     </div>
                                 </div>

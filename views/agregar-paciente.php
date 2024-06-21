@@ -847,14 +847,14 @@ $minS = 'Paciente'; ?>
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Número de teléfono:</i></span>
                                                     <input id="telefono_encargado" type="text" name="telefono_encargado"
-                                                        class="form-control" maxlength="30" required></input>
+                                                        class="form-control" maxlength="10" required></input>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-11">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">Diagnóstico:</i></span>
                                                     <input id="diagnostico" type="text" name="diagnostico"
-                                                        class="form-control" maxlength="30" required></input>
+                                                        class="form-control" maxlength="500" required></input>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-11">
@@ -862,7 +862,7 @@ $minS = 'Paciente'; ?>
                                                     <span class="input-group-addon">Medicamentos Administrados
                                                         Actualmente:</span>
                                                     <textarea id="medicamentos_Admin" name="medicamentos_Admin"
-                                                        class="form-control" maxlength="150" rows="2"
+                                                        class="form-control" maxlength="500" rows="2"
                                                         style="overflow:auto;resize:none"></textarea>
                                                 </div>
                                             </div>
@@ -933,9 +933,9 @@ $minS = 'Paciente'; ?>
                                                                 <th>Historia Enfermedad Actual</th>
                                                                 <td>
                                                                     <div>
-                                                                        <input id="historia_enfermedad" type="text"
-                                                                            name="historia_enfermedad" class="form-control"
-                                                                            maxlength="200"></input>
+                                                                        <textarea id="historia_enfermedad" type="text"
+                                                                            name="historia_enfermedad" style="resize: none;" class="form-control"
+                                                                            maxlength="500" rows="10"></textarea>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -1114,10 +1114,24 @@ $minS = 'Paciente'; ?>
                                                 <textarea id="tipo_dolor" name="tipo_dolor" class="form-control"
                                                     maxlength="150" rows="2" text=""
                                                     style="overflow:auto;resize:none"></textarea>
-                                                <span class="input-group-addon">Escala de dolor:</span>
+                                                    <span class="input-group-addon">Escala de dolor:</span>
                                                 <br>
-                                                <input type="range" min="0" max="10" value="5" step="1"
-                                                    style="width: 100%; overflow:auto;resize:none" name="escaladolor">
+                                                <div style="position: relative;">
+                                                <input type="range" min="0" max="10"  value="<?php echo $consulta[0]['escala_visual_dolor']; ?>" step="1" style="width: 100%; overflow: auto; resize: none" name="escaladolor" >
+                                                    <div style="display: flex; justify-content: space-between;">
+                                                        <span>0</span>
+                                                        <span>1</span>
+                                                        <span>2</span>
+                                                        <span>3</span>
+                                                        <span>4</span>
+                                                        <span>5</span>
+                                                        <span>6</span>
+                                                        <span>7</span>
+                                                        <span>8</span>
+                                                        <span>9</span>
+                                                        <span>10</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="tab-pane fade" id="tono_muscular">

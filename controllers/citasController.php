@@ -68,9 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 	// }
 }
 else {
+	$idUsuario = $_SESSION['user']['id'];
 	require_once 'models/eventModel.php';
 	$load = new Event();
-	$events = $load->getEvents();
+	$events = $load->getEvents($idUsuario);
 	$load = null;
 
 	$eventsList = json_encode($events);

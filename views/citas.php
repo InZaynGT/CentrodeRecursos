@@ -141,15 +141,10 @@ $minS = 'Inventario'; ?>
                     <div class="col-sm-10">
                       <select required name="color" class="form-control" id="color">
                         <option value="">Seleccionar</option>
-                        <option style="color:#FF0000;" value="#FF0000">&#9724; Primera Revisión de Historial Clínico
-                        </option>
-                        <option style="color:#000;" value="#000">&#9724; Consulta de Seguimiento</option>
-                        <option style="color:#A020F0" value="#A020F0">&#9724; Descanso o Personal</option>
-                        <!-- <option style="color:#FFD700;" value="#FFD700">&#9724; Colposcopía</option>
-                    <option style="color:#FF8C00;" value="#FF8C00">&#9724; Radiofrecuencia</option>
-                    <option style="color:#FF0000;" value="#FF0000">&#9724; Turnos</option>
-                    <option style="color:#000;" value="#000">&#9724; Depilación láser</option>
-                    <option style="color:#A020F0" value="#A020F0">&#9724; Reducción de Medidas</option> -->
+                        <option style="color:#000000;" value="#807F00">&#9724; Pendiente de Confirmar</option>
+                        <option style="color:#000000;" value="#990000">&#9724; Cancelado</option>
+                        <option style="color:#000000" value="#007F00">&#9724; Confirmado</option>
+                        <option style="color:#000000" value="#007F7F">&#9724; Completado</option>
                       </select>
                     </div>
                   </div>
@@ -199,10 +194,10 @@ $minS = 'Inventario'; ?>
                 <div class="col-sm-10">
                   <select required name="color" class="form-control" id="color">
                     <option value="">Seleccionar</option>
-                    <option style="color:#FF0000;" value="#FF0000">&#9724; Primera Revisión de Historial Clínico
-                    </option>
-                    <option style="color:#000;" value="#000">&#9724; Consulta de Seguimiento</option>
-                    <option style="color:#A020F0" value="#A020F0">&#9724; Descanso o Personal</option>
+                      <option style="color:#000000;" value="#807F00">&#9724; Pendiente de Confirmar</option>
+                      <option style="color:#000000;" value="#990000">&#9724; Cancelado</option>
+                      <option style="color:#000000" value="#007F00">&#9724; Confirmado</option>
+                      <option style="color:#000000" value="#007F7F">&#9724; Completado</option>
                   </select>
                 </div>
               </div>

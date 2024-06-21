@@ -36,15 +36,33 @@ class Consulta extends Configuracion
         return $cotizaciones;
     }
 
-    public function getConsulta()
+    public function getConsulta($idPaciente)
     {
         $pdo = parent::conexion();
         $cotizaciones = array();
         $stmt = $pdo->prepare("SELECT c.*, p.nombre AS nombre 
         FROM clinica.consulta c 
         INNER JOIN clinica.paciente p ON p.idpaciente = c.idpaciente 
-        WHERE c.estado = 1
-        ORDER BY idconsulta DESC;");
+        WHERE c.estado = 1 AND p.idpaciente = :idPaciente
+        ORDER BY fechaconsulta DESC;");
+        $stmt->bindParam(":idPaciente", $idPaciente, PDO::PARAM_INT);
+        $stmt->execute();
+
+        while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $cotizaciones[] = $resultado;
+        }
+        return $cotizaciones;
+    }
+
+    public function getPacientesConsulta()
+    {
+        $pdo = parent::conexion();
+        $cotizaciones = array();
+        $stmt = $pdo->prepare("SELECT DISTINCT c.idpaciente, p.nombre AS nombre 
+        FROM clinica.consulta c 
+        INNER JOIN clinica.paciente p ON p.idpaciente = c.idpaciente 
+        WHERE p.estado = 1
+        ORDER BY c.idpaciente DESC;");
         $stmt->execute();
 
         while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
