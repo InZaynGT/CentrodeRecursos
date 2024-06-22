@@ -1,10 +1,10 @@
 <?php
 // CONEXION A BASE DE DATOS
-$conexion = mysqli_connect('127.0.0.1:3307', 'root', 'SAMI_zayn2802', 'clinica');
+$conexion = mysqli_connect('127.0.0.1:3306', 'root', '', 'clinica');
 require_once 'dbconfig.php';
 
 // Incluir la biblioteca TCPDF
-include('library/tcpdf.php');
+include ('library/tcpdf.php');
 
 // Crear un objeto TCPDF
 $pdf = new TCPDF('P', 'mm', 'A4');
@@ -461,93 +461,93 @@ if ($result) {
     $pdf->Ln(); // Salto de línea
 
     // Datos para las 11 filas
-$escalas = array(
-    'Control de Cuello',
-    'Rotación de prono a supino',
-    'Rotación de supino a prono',
-    'Control de tronco superior',
-    'Control de tronco inferior',
-    'Posición de cuatro puntos',
-    'Adopta posición sedente',
-    'Adopta posición hincado',
-    'Adopta posición de semi-hincado',
-    'Adopta posición de bidepestación'
-);
+    $escalas = array(
+        'Control de Cuello',
+        'Rotación de prono a supino',
+        'Rotación de supino a prono',
+        'Control de tronco superior',
+        'Control de tronco inferior',
+        'Posición de cuatro puntos',
+        'Adopta posición sedente',
+        'Adopta posición hincado',
+        'Adopta posición de semi-hincado',
+        'Adopta posición de bidepestación'
+    );
 
-$valores = array(
-    $row['control_cuello'],
-    $row['rotacion_prono_supino'],
-    $row['rotacion_supino_prono'],
-    $row['tronco_superior'],
-    $row['tronco_inferior'],
-    $row['cuatro_puntos'],
-    $row['posicion_sedente'],
-    $row['posicion_hincado'],
-    $row['posicion_semihincado'],
-    $row['posicion_bidepestacion']
-);
+    $valores = array(
+        $row['control_cuello'],
+        $row['rotacion_prono_supino'],
+        $row['rotacion_supino_prono'],
+        $row['tronco_superior'],
+        $row['tronco_inferior'],
+        $row['cuatro_puntos'],
+        $row['posicion_sedente'],
+        $row['posicion_hincado'],
+        $row['posicion_semihincado'],
+        $row['posicion_bidepestacion']
+    );
 
-// Agregar filas manualmente con títulos en la primera columna
-for ($i = 0; $i < count($escalas); $i++) {
-    $pdf->Cell(80, 6, $escalas[$i], 1);
-    $pdf->Cell(30, 6, ($valores[$i] == 1) ? 'X' : '', 1, 0, 'C');
-    $pdf->Cell(30, 6, ($valores[$i] == 2) ? 'X' : '', 1, 0, 'C');
-    $pdf->Cell(30, 6, ($valores[$i] == 3) ? 'X' : '', 1, 0, 'C');
-    $pdf->Ln(); // Salto de línea
-}
+    // Agregar filas manualmente con títulos en la primera columna
+    for ($i = 0; $i < count($escalas); $i++) {
+        $pdf->Cell(80, 6, $escalas[$i], 1);
+        $pdf->Cell(30, 6, ($valores[$i] == 1) ? 'X' : '', 1, 0, 'C');
+        $pdf->Cell(30, 6, ($valores[$i] == 2) ? 'X' : '', 1, 0, 'C');
+        $pdf->Cell(30, 6, ($valores[$i] == 3) ? 'X' : '', 1, 0, 'C');
+        $pdf->Ln(); // Salto de línea
+    }
 
-$html5_6 = "
+    $html5_6 = "
 <br>
 <h2 style='text-align: center; margin: auto;'>ATENCION</h2>
 ";
 
-$pdf->writeHTML($html5_6, true, false, false, false, '');
-$pdf->Cell(0, 10, 'Mediante estímulo visual, auditivo o táctil', 0, 1);
-// Crear otra tabla
-$pdf->Cell(80, 6, '', 1, 0, 'C');
-$pdf->Cell(30, 6, 'Existe', 1, 0, 'C');
-$pdf->Cell(30, 6, 'No existe', 1, 0, 'C');
-$pdf->Ln(); // Salto de línea
+    $pdf->writeHTML($html5_6, true, false, false, false, '');
+    $pdf->Cell(0, 10, 'Mediante estímulo visual, auditivo o táctil', 0, 1);
+    // Crear otra tabla
+    $pdf->Cell(80, 6, '', 1, 0, 'C');
+    $pdf->Cell(30, 6, 'Existe', 1, 0, 'C');
+    $pdf->Cell(30, 6, 'No existe', 1, 0, 'C');
+    $pdf->Ln(); // Salto de línea
 
-// Datos para las 11 filas
-$escalas = array(
-'Localizacion',
-'Fijación',
-'Seguimiento',
-'Alcance',
-'Manipulación',
-'Exploración'
-);
+    // Datos para las 11 filas
+    $escalas = array(
+        'Localizacion',
+        'Fijación',
+        'Seguimiento',
+        'Alcance',
+        'Manipulación',
+        'Exploración'
+    );
 
-$valores = array(
-$row['localizacion'],
-$row['fijacion'],
-$row['seguimiento'],
-$row['alcance'],
-$row['manipulacion'],
-$row['exploracion']
-);
+    $valores = array(
+        $row['localizacion'],
+        $row['fijacion'],
+        $row['seguimiento'],
+        $row['alcance'],
+        $row['manipulacion'],
+        $row['exploracion']
+    );
 
-// Agregar filas manualmente con títulos en la primera columna
-for ($i = 0; $i < count($escalas); $i++) {
-$pdf->Cell(80, 6, $escalas[$i], 1);
-$pdf->Cell(30, 6, ($valores[$i] == 1) ? 'X' : '', 1, 0, 'C');
-$pdf->Cell(30, 6, ($valores[$i] == 0) ? 'X' : '', 1, 0, 'C');
-$pdf->Ln(); // Salto de línea
-}
+    // Agregar filas manualmente con títulos en la primera columna
+    for ($i = 0; $i < count($escalas); $i++) {
+        $pdf->Cell(80, 6, $escalas[$i], 1);
+        $pdf->Cell(30, 6, ($valores[$i] == 1) ? 'X' : '', 1, 0, 'C');
+        $pdf->Cell(30, 6, ($valores[$i] == 0) ? 'X' : '', 1, 0, 'C');
+        $pdf->Ln(); // Salto de línea
+    }
 
-$pdf->AddPage();
-$pdf->Image('../img/logo_fundal.png', 15, 10, 30);
-$pdf->Image('../img/postura2.png', 15, 180, 100);
-$pdf->Image('../img/silueta.jpg', 130, 182, 50);
-$sostiene_objeto = $row['sostiene_objeto'];
-$suelta_objeto = $row['suelta_objeto'];
-$atrapa_objeto = $row['atrapa_objeto'];
-$lanza_objeto = $row['lanza_objeto'];
-$realiza_nudo = $row['realiza_nudo'];
-$encaja = $row['encaja'];
+    $pdf->AddPage();
+    $pdf->Image('../img/logo_fundal.png', 15, 10, 30);
+    $pdf->Image('../img/postura2.png', 15, 180, 100);
+    $pdf->Image('../img/silueta.jpg', 130, 182, 50);
+    $sostiene_objeto = $row['sostiene_objeto'];
+    $suelta_objeto = $row['suelta_objeto'];
+    $atrapa_objeto = $row['atrapa_objeto'];
+    $lanza_objeto = $row['lanza_objeto'];
+    $realiza_nudo = $row['realiza_nudo'];
+    $encaja = $row['encaja'];
 
-$html6 = "
+    $html6 = "
 <br>
 <br>
 <br>
@@ -557,30 +557,30 @@ $html6 = "
 ";
 
 
-$pdf->writeHTML($html6, true, false, false, false, '');
+    $pdf->writeHTML($html6, true, false, false, false, '');
 
-$pdf->Cell(40, 8, '¿Sostiene objeto?', 0, 0, 'C');
-$pdf->Cell(40, 8, ($sostiene_objeto == 1) ? 'Sí' : 'No', 0, 0, 'C');
-$pdf->Cell(40, 8, '¿Suelta objeto?', 0, 0, 'C');
-$pdf->Cell(40, 8, ($suelta_objeto == 1) ? 'Sí' : 'No', 0, 1, 'C'); // Nuevo renglón
+    $pdf->Cell(40, 8, '¿Sostiene objeto?', 0, 0, 'C');
+    $pdf->Cell(40, 8, ($sostiene_objeto == 1) ? 'Sí' : 'No', 0, 0, 'C');
+    $pdf->Cell(40, 8, '¿Suelta objeto?', 0, 0, 'C');
+    $pdf->Cell(40, 8, ($suelta_objeto == 1) ? 'Sí' : 'No', 0, 1, 'C'); // Nuevo renglón
 
-$pdf->Cell(40, 8, '¿Atrapa objeto?', 0, 0, 'C');
-$pdf->Cell(40, 8, ($atrapa_objeto == 1) ? 'Sí' : 'No', 0, 0, 'C');
-$pdf->Cell(40, 8, '¿Lanza objeto?', 0, 0, 'C');
-$pdf->Cell(40, 8, ($lanza_objeto == 1) ? 'Sí' : 'No', 0, 1, 'C'); // Nuevo renglón
+    $pdf->Cell(40, 8, '¿Atrapa objeto?', 0, 0, 'C');
+    $pdf->Cell(40, 8, ($atrapa_objeto == 1) ? 'Sí' : 'No', 0, 0, 'C');
+    $pdf->Cell(40, 8, '¿Lanza objeto?', 0, 0, 'C');
+    $pdf->Cell(40, 8, ($lanza_objeto == 1) ? 'Sí' : 'No', 0, 1, 'C'); // Nuevo renglón
 
-$pdf->Cell(40, 8, '¿Realiza nudo?', 0, 0, 'C');
-$pdf->Cell(40, 8, ($realiza_nudo == 1) ? 'Sí' : 'No', 0, 0, 'C');
-$pdf->Cell(40, 8, '¿Encaja?', 0, 0, 'C');
-$pdf->Cell(40, 8, ($encaja == 1) ? 'Sí' : 'No', 0, 1, 'C'); // Nuevo renglón
+    $pdf->Cell(40, 8, '¿Realiza nudo?', 0, 0, 'C');
+    $pdf->Cell(40, 8, ($realiza_nudo == 1) ? 'Sí' : 'No', 0, 0, 'C');
+    $pdf->Cell(40, 8, '¿Encaja?', 0, 0, 'C');
+    $pdf->Cell(40, 8, ($encaja == 1) ? 'Sí' : 'No', 0, 1, 'C'); // Nuevo renglón
 
-$html6_8 = "
+    $html6_8 = "
 <br>
 <h2 style='text-align: center; margin: auto;'>ACTIVIDADES DE LA VIDA DIARIA (AVD)</h2>
 ";
 
-$pdf->writeHTML($html6_8, true, false, false, false, '');
-$pdf->Cell(0, 10, 'Entrevista a padre/madre/encargado', 0, 1);
+    $pdf->writeHTML($html6_8, true, false, false, false, '');
+    $pdf->Cell(0, 10, 'Entrevista a padre/madre/encargado', 0, 1);
 
     // Crear otra tabla
     $pdf->Cell(80, 6, 'Actividad', 1, 0, 'C');
@@ -590,50 +590,50 @@ $pdf->Cell(0, 10, 'Entrevista a padre/madre/encargado', 0, 1);
     $pdf->Ln(); // Salto de línea
 
     // Datos para las 11 filas
-$escalas = array(
-    'Alimentación',
-    'Higiene',
-    'Vestuario',
-    'Control de esfínteres',
-    'Orden y limpieza',
-    'Ocio y recreación'
-);
+    $escalas = array(
+        'Alimentación',
+        'Higiene',
+        'Vestuario',
+        'Control de esfínteres',
+        'Orden y limpieza',
+        'Ocio y recreación'
+    );
 
-$valores = array(
-    $row['alimentacion'],
-    $row['higiene'],
-    $row['vestuario'],
-    $row['control_esfinteres'],
-    $row['orden_limpieza'],
-    $row['ocio_recreacion']
-);
+    $valores = array(
+        $row['alimentacion'],
+        $row['higiene'],
+        $row['vestuario'],
+        $row['control_esfinteres'],
+        $row['orden_limpieza'],
+        $row['ocio_recreacion']
+    );
 
-// Agregar filas manualmente con títulos en la primera columna
-for ($i = 0; $i < count($escalas); $i++) {
-    $pdf->Cell(80, 6, $escalas[$i], 1);
-    $pdf->Cell(30, 6, ($valores[$i] == 1) ? 'X' : '', 1, 0, 'C');
-    $pdf->Cell(30, 6, ($valores[$i] == 2) ? 'X' : '', 1, 0, 'C');
-    $pdf->Cell(30, 6, ($valores[$i] == 3) ? 'X' : '', 1, 0, 'C');
-    $pdf->Ln(); // Salto de línea
-}
+    // Agregar filas manualmente con títulos en la primera columna
+    for ($i = 0; $i < count($escalas); $i++) {
+        $pdf->Cell(80, 6, $escalas[$i], 1);
+        $pdf->Cell(30, 6, ($valores[$i] == 1) ? 'X' : '', 1, 0, 'C');
+        $pdf->Cell(30, 6, ($valores[$i] == 2) ? 'X' : '', 1, 0, 'C');
+        $pdf->Cell(30, 6, ($valores[$i] == 3) ? 'X' : '', 1, 0, 'C');
+        $pdf->Ln(); // Salto de línea
+    }
 
-$pdf->Cell(0, 10, 'Observaciones:', 0, 1);
-$pdf->MultiCell(0, 5, $row['observaciones_act'], 0, 1);
+    $pdf->Cell(0, 10, 'Observaciones:', 0, 1);
+    $pdf->MultiCell(0, 5, $row['observaciones_act'], 0, 1);
 
-$html6_9 = "
+    $html6_9 = "
 <br>
 <h2 style='text-align: center; margin: auto;'>POSTURA</h2>
 ";
 
-$pdf->writeHTML($html6_9, true, false, false, false, '');
-$pdf->SetY(252);
-$pdf->Cell(0, 10, 'OBSERVACIONES:', 0, 1);
-$pdf->MultiCell(0, 5, $row['observaciones_post'], 0, 1);
+    $pdf->writeHTML($html6_9, true, false, false, false, '');
+    $pdf->SetY(252);
+    $pdf->Cell(0, 10, 'OBSERVACIONES:', 0, 1);
+    $pdf->MultiCell(0, 5, $row['observaciones_post'], 0, 1);
 
-$pdf->AddPage();
-$pdf->Image('../img/logo_fundal.png', 15, 10, 30);
+    $pdf->AddPage();
+    $pdf->Image('../img/logo_fundal.png', 15, 10, 30);
 
-$html7_10 = "
+    $html7_10 = "
 <br>
 <br>
 <br>
@@ -643,45 +643,45 @@ $html7_10 = "
 <h2 style='text-align: center; margin: auto;'>MARCHA Y/O DESPLAZAMIENTO</h2>
 ";
 
-$pdf->writeHTML($html7_10, true, false, false, false, '');
+    $pdf->writeHTML($html7_10, true, false, false, false, '');
 
-$pdf->Cell(0, 10, 'Evaluación que indicará el proceso de la marcha.', 0, 1);
-// Crear otra tabla
-$pdf->Cell(80, 6, 'Evaluación', 1, 0, 'C');
-$pdf->Cell(30, 6, 'Resultado', 1, 0, 'C');
-$pdf->Ln(); // Salto de línea
-
-// Datos para las 11 filas
-$escalas = array(
-'Realiza la marcha:',
-'Base de sustentación:',
-'Usa silla de ruedas:',
-'Lo realiza con apoyo:',
-'Equilibrio:',
-'Coordinación:',
-'¿Utiliza dispositivo?:'
-);
-
-$valores = array(
-    ($row['realiza_marcha'] == 1) ? 'Si' : 'No',
-    ($row['base_sustentacion'] == 1) ? 'Amplia' : (($row['base_sustentacion'] == 2) ? 'Disminuida' : (($row['base_sustentacion'] == 3) ? 'Proporcionada' : 'Desconocido')),
-    ($row['coordinacion'] == 1) ? 'Si' : 'No',
-    ($row['equilibrio'] == 1) ? 'Bueno' : (($row['equilibrio'] == 2) ? 'Regular' : (($row['equilibrio'] == 3) ? 'Malo' : 'Desconocido')),
-    ($row['realiza_apoyo'] == 1) ? 'Si' : 'No',
-    ($row['silla_ruedas'] == 1) ? 'Si' : 'No',
-    ($row['utiliza_dispositivo'] == 1) ? 'Si' : 'No'
-);
-
-
-// Agregar filas manualmente con títulos en la primera columna
-for ($i = 0; $i < count($escalas); $i++) {
-    $pdf->Cell(80, 6, $escalas[$i], 1);
-    $pdf->Cell(30, 6, $valores[$i], 1, 0, 'C');
+    $pdf->Cell(0, 10, 'Evaluación que indicará el proceso de la marcha.', 0, 1);
+    // Crear otra tabla
+    $pdf->Cell(80, 6, 'Evaluación', 1, 0, 'C');
+    $pdf->Cell(30, 6, 'Resultado', 1, 0, 'C');
     $pdf->Ln(); // Salto de línea
-}
 
-$pdf->Cell(0, 10, '¿Cuál? :', 0, 1);
-$pdf->MultiCell(0, 5, $row['cual_dispositivo'], 0, 1);
+    // Datos para las 11 filas
+    $escalas = array(
+        'Realiza la marcha:',
+        'Base de sustentación:',
+        'Usa silla de ruedas:',
+        'Lo realiza con apoyo:',
+        'Equilibrio:',
+        'Coordinación:',
+        '¿Utiliza dispositivo?:'
+    );
+
+    $valores = array(
+        ($row['realiza_marcha'] == 1) ? 'Si' : 'No',
+        ($row['base_sustentacion'] == 1) ? 'Amplia' : (($row['base_sustentacion'] == 2) ? 'Disminuida' : (($row['base_sustentacion'] == 3) ? 'Proporcionada' : 'Desconocido')),
+        ($row['coordinacion'] == 1) ? 'Si' : 'No',
+        ($row['equilibrio'] == 1) ? 'Bueno' : (($row['equilibrio'] == 2) ? 'Regular' : (($row['equilibrio'] == 3) ? 'Malo' : 'Desconocido')),
+        ($row['realiza_apoyo'] == 1) ? 'Si' : 'No',
+        ($row['silla_ruedas'] == 1) ? 'Si' : 'No',
+        ($row['utiliza_dispositivo'] == 1) ? 'Si' : 'No'
+    );
+
+
+    // Agregar filas manualmente con títulos en la primera columna
+    for ($i = 0; $i < count($escalas); $i++) {
+        $pdf->Cell(80, 6, $escalas[$i], 1);
+        $pdf->Cell(30, 6, $valores[$i], 1, 0, 'C');
+        $pdf->Ln(); // Salto de línea
+    }
+
+    $pdf->Cell(0, 10, '¿Cuál? :', 0, 1);
+    $pdf->MultiCell(0, 5, $row['cual_dispositivo'], 0, 1);
 
 
 

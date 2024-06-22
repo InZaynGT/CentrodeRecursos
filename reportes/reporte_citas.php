@@ -1,10 +1,10 @@
 <?php
 // CONEXION A BASE DE DATOS
-$conexion = mysqli_connect('127.0.0.1:3307', 'root', 'SAMI_zayn2802', 'clinica');
+$conexion = mysqli_connect('127.0.0.1:3306', 'root', '', 'clinica');
 require_once 'dbconfig.php';
 
 // Incluir la biblioteca TCPDF
-include('library/tcpdf.php');
+include ('library/tcpdf.php');
 
 // Crear un objeto TCPDF
 $pdf = new TCPDF('P', 'mm', 'A4');
