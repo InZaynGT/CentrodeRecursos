@@ -1,12 +1,15 @@
 ﻿<?php
+	define('APP_NAME', 'Centro de Recursos');
+	define('PORT', '3306');
 	// LOCAL
 	// define('DB_SERVER', 'localhost');
 	// define('DB_NAME', 'clinica');
 	// define('DB_USER', 'root');
-	// define('DB_PASSWD', 'SAMI_zayn2802');
-	// define('BASE_DIR', 'http://localhost/clinica/');
+	// define('DB_PASSWD', '');
+	// define('BASE_DIR', 'http://localhost/centroderecursos/');
 
 	//PRODUCCION
+	define('PORT', '3306');
 	define('DB_SERVER', 'localhost');
 	define('DB_NAME', 'clinica');
 	define('DB_USER', 'cmiranda');

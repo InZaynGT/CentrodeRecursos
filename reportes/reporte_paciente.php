@@ -3,7 +3,7 @@
 
 
 //CONEXION A BASE DE DATOS
-$conexion = mysqli_connect('127.0.0.1:3306', 'root', '', 'clinica');
+$conexion = mysqli_connect(DB_SERVER . ':' . PORT, DB_USER, DB_PASSWD, DB_NAME);
 require_once 'dbconfig.php';
 
 
