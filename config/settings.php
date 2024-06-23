@@ -1,8 +1,9 @@
 ﻿<?php
 	define('APP_NAME', 'Centro de Recursos');
-	define('PORT', '3306');
+
 	// LOCAL
 	// define('DB_SERVER', 'localhost');
+	// define('PORT', '3306');
 	// define('DB_NAME', 'clinica');
 	// define('DB_USER', 'root');
 	// define('DB_PASSWD', '');
