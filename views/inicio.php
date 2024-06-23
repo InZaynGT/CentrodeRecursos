@@ -3,7 +3,7 @@
 
     <section class="content-header">
         <h1 align="center">
-            BIENVENIDO AL ADMINISTRADOR DEL CENTRO DE RECURSOS
+            ADMINISTRACIÓN DEL CENTRO DE RECURSOS
         </h1>
     </section>
 
