@@ -10,7 +10,6 @@ abstract class Configuracion {
 		//Activar para hacer las pruebas de errores mientra se programa
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		//$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-		
 		return $this->pdo;
 	}
 }

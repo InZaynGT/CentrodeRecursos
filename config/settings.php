@@ -9,9 +9,9 @@
 
 	define('DB_SERVER', 'localhost');
 	define('DB_NAME', 'clinica');
-	define('DB_USER', 'root');
-	define('DB_PASSWD', '');
-	define('BASE_DIR', 'http://localhost/centroderecursos/');
+	define('DB_USER', 'cmiranda');
+	define('DB_PASSWD', 'MySecurePass123!');
+	define('BASE_DIR', 'https://centroderecursos.intecod.com/');
 	
 
 	function slug($string){
