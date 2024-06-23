@@ -1,17 +1,17 @@
 ﻿<?php
-	// define('DB_SERVER', 'USUARIOPC\SQLEXPRESS');
-	// define('DB_NAME', 'logistik');
- // define('DB_SERVER', 'USUARIOPC\SQLEXPRESS');
-	//define('DB_NAME', 'Logistik');
-//	define('DB_USER', '');
-	//define('DB_PASSWD', '');
-	//define('BASE_DIR', 'http://usuariopc/rapiescapes/');
+	// LOCAL
+	// define('DB_SERVER', 'localhost');
+	// define('DB_NAME', 'clinica');
+	// define('DB_USER', 'root');
+	// define('DB_PASSWD', 'SAMI_zayn2802');
+	// define('BASE_DIR', 'http://localhost/clinica/');
 
+	//PRODUCCION
 	define('DB_SERVER', 'localhost');
 	define('DB_NAME', 'clinica');
-	define('DB_USER', 'root');
-	define('DB_PASSWD', 'SAMI_zayn2802');
-	define('BASE_DIR', 'http://localhost/clinica/');
+	define('DB_USER', 'cmiranda');
+	define('DB_PASSWD', 'MySecurePass123!');
+	define('BASE_DIR', 'https://centroderecursos.intecod.com/');
 	
 
 	function slug($string){
