@@ -143,8 +143,8 @@ if (!empty($_POST)) {
 		$c->ActualizarMarchaDesplazamiento($marcha,$sustentacion,$coordinacion,$equilibrio,$apoyo,$silla_ruedas,$dispositivo,
 		$cual_dispositivo,$idItem);
 
-		echo '<script>alert("Paciente actualizado exitosamente.");</script>';
-		echo '<meta http-equiv="refresh" content="1;url=http://localhost/clinica/pacientes">';
+		echo '<script>alert("Consulta ingresada exitosamente.");
+		window.location.href = "'. BASE_DIR .'pacientes";</script>';
 		exit;
     }
 

@@ -91,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             require_once 'models/consultaModel.php';
             $c = new Consulta;
             $c->setConsulta($idPaciente, $fechaConsultaStr, $idUsuario, $observaciones);
-            echo '<script>alert("Consulta ingresada exitosamente.");</script>';
-            echo '<meta http-equiv="refresh" content="1;url=http://localhost/clinica/consultas">';
+            echo '<script>alert("Consulta ingresada exitosamente.");
+            window.location.href = "'. BASE_DIR .'consultas";</script>';
             exit; // Importante para detener la ejecución del script PHP aquí
         } else {
             exit;

@@ -1,12 +1,10 @@
 <?php
-//FORMATO PARA GENERAR EL PDF DE LOS SERVICIOS DISPONIBLES DENTRO DEL SISTEMA.
+//LOCAL
+$conexion = mysqli_connect('localhost:3307', 'root', 'SAMI_zayn2802', 'clinica');
+//PRODUCCION
+//$conexion = mysqli_connect('localhost:3306', 'cmiranda', 'MySecurePass123!', 'clinica');
 
-
-//CONEXION A BASE DE DATOS
-$conexion = mysqli_connect(DB_SERVER . ':' . PORT, DB_USER, DB_PASSWD, DB_NAME);
 require_once 'dbconfig.php';
-
-
 //include library
 include ('library/tcpdf.php');
 
@@ -56,6 +54,7 @@ $sql = "SELECT *
 		WHERE estado = 1 
 		ORDER BY idpaciente DESC
 		LIMIT 0,100";
+
 $result = mysqli_query($conexion, $sql);
 //MANDAMOS A TRAER LOS DATOS A LA BDD
 $stmt = $DBcon->prepare($sql);
@@ -75,6 +74,7 @@ $userData2 = json_encode($userData);
 //HACEMOS EL DECODE PARA REGRESARLO A PHP, YA CON EL FORMATO ADECUADO PARA PODER HACER EL LOOP E INSERTARLO AL PDF
 $data2 = json_decode($userData2);
 
+if($data2> 0){
 
 //ITERAMOS EL PHP PARA PODER INSERTARLO EN CADA REGISTRO DE LA TABLA
 foreach ($data2 as $student) {
@@ -88,6 +88,7 @@ foreach ($data2 as $student) {
 				<td>" . $student->diagnostico . "</td>
 			</tr>
 			";
+}
 }
 
 //ESTILOS DE LA TABLA

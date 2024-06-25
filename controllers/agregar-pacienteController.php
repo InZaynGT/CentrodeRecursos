@@ -269,8 +269,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $c->agregarMarchaDesplazamiento($marcha, $sustentacion, $coordinacion, $equilibrio, $apoyo, $silla_ruedas, $dispositivo,
             $cual_dispositivo, $idPaciente);
 
-            echo '<script>alert("Paciente ingresado exitosamente.");</script>';
-            echo '<meta http-equiv="refresh" content="1;url=http://localhost/clinica/pacientes">';
+            echo '<script>alert("Consulta ingresada exitosamente.");
+            window.location.href = "'. BASE_DIR .'pacientes";</script>';
             exit;
 
         } else {

@@ -3,11 +3,11 @@
 
 	// LOCAL
 	// define('DB_SERVER', 'localhost');
-	// define('PORT', '3306');
+	// define('PORT', '3307');
 	// define('DB_NAME', 'clinica');
 	// define('DB_USER', 'root');
-	// define('DB_PASSWD', '');
-	// define('BASE_DIR', 'http://localhost/centroderecursos/');
+	// define('DB_PASSWD', 'SAMI_zayn2802');
+	// define('BASE_DIR', 'http://localhost/clinica/');
 
 	//PRODUCCION
 	define('PORT', '3306');

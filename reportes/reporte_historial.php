@@ -1,7 +1,9 @@
 <?php
-// CONEXION A BASE DE DATOS
-$conexion = mysqli_connect(DB_SERVER . ':' . PORT, DB_USER, DB_PASSWD, DB_NAME);
-require_once 'dbconfig.php';
+//LOCAL
+$conexion = mysqli_connect('localhost:3307', 'root', 'SAMI_zayn2802', 'clinica');
+//PRODUCCION
+// $conexion = mysqli_connect('localhost:3306', 'cmiranda', 'MySecurePass123!', 'clinica');
+
 
 // Incluir la biblioteca TCPDF
 include ('library/tcpdf.php');
