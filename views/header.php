@@ -141,11 +141,11 @@
             <span>Citas</span>
         </a>
     </li>
-    <li>
+    <!-- <li>
         <a target="_blank" href="<?php echo BASE_DIR; ?>reportes/reporte_citas.php">
             <i class="fa fa-book"></i> <span>Generar Lista de Citas</span>
         </a>
-    </li>
+    </li> -->
 
     <!-- Titulo para Historiales Clínicos -->
     <li>

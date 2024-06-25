@@ -1,7 +1,7 @@
 <?php
-$DBhost = "127.0.0.1:3306";
+$DBhost = "127.0.0.1:3307";
 $DBuser = "root";
-$DBpass = "";
+$DBpass = "SAMI_zayn2802";
 $DBname = "clinica";
 
 try {

@@ -14,8 +14,9 @@ if (!empty($_POST)) {
         $c = new Consulta();
 
         $c->updateConsulta($fechaConsultaStr, $observaciones, $usuarioModifica, $idConsulta);
-        echo '<script>alert("Consulta actualizada exitosamente.");</script>';
-        echo '<meta http-equiv="refresh" content="1;url=http://localhost/clinica/consultas">';
+        echo '<script>alert("Consulta ingresada exitosamente.");
+        window.location.href = "'. BASE_DIR .'pacientes";</script>';
+        exit;
     }
 
 } else {

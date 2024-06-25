@@ -81,7 +81,7 @@ $minS = 'Consultas'; ?>
 					</div>
 					<div>
 						<a class="btn-danger pull-right d-flex" style="margin:1rem; padding:1rem; border-radius:3px"
-							href="reportes/reporte_consulta.php" target="_blank" style="text-decoration:none;">PDF</a>
+						 href="<?php echo BASE_DIR; ?>/reportes/reporte_consulta.php" target="_blank" style="text-decoration:none;">PDF</a>
 					</div>
 					<div class="box-body table-responsive">
 						<script>
